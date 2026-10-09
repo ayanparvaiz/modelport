@@ -25,6 +25,14 @@ class FakeBundle {
     'sha256': sha256.convert(files[path]!).toString(),
   };
 
+  /// Adds golden input and expected output files.
+  void addGolden(Float32List input, Float32List output) {
+    files['golden/pixel_values.bin'] = input.buffer.asUint8List();
+    files['golden/logits.bin'] = output.buffer.asUint8List();
+  }
+
+  bool get hasGolden => files.containsKey('golden/logits.bin');
+
   Map<String, Object?> manifestJson({Map<String, Object?>? modelRef}) => {
     'schema': 'modelport/0.1',
     'id': id,
@@ -60,6 +68,11 @@ class FakeBundle {
         'postprocess': {'type': 'classification', 'labels': ref('labels.txt')},
       },
     ],
+    if (hasGolden)
+      'golden': {
+        'inputs': {'pixel_values': ref('golden/pixel_values.bin')},
+        'outputs': {'logits': ref('golden/logits.bin')},
+      },
   };
 
   String manifestText({Map<String, Object?>? modelRef}) =>
