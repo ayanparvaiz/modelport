@@ -25,6 +25,9 @@ Protidin er choto note. Shurute "aj ki korbo", sheshe "ki holo, kothay atkalam".
 - llm_llamacpp Android e backend load kore na → workaround peyechi, upstream e report korte hobe
 - `flutter test` Android e app uninstall kore model muche dey → `--no-uninstall`
 
+- Phase 2 shuru: `doctor` ar `inspect` (.onnx, .pte, .gguf) command hoye geche
+
 **Kal ki korbo**
-- Phase 2: `doctor` ar `inspect` command
+- Phase 2: source loader (`torchvision:`, `hf:`, `file:`) ar ONNX exporter
+- Spike er shikkha (`.contiguous()`) exporter e boshano
 - Hugging Face org, PyPI account (nije)
