@@ -15,23 +15,30 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  core:
-    name: format, analyze, test (modelport)
+  packages:
+    name: format, analyze, test
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: dart
     steps:
       - uses: actions/checkout@v7
-      - uses: dart-lang/setup-dart@v1
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: stable
+          channel: stable
+          cache: true
       - name: Install
-        run: dart pub get
+        run: flutter pub get
       - name: Format
-        run: dart format --output=none --set-exit-if-changed packages/modelport
-      - name: Analyze
+        run: dart format --output=none --set-exit-if-changed packages
+      - name: Analyze modelport
         run: dart analyze --fatal-infos packages/modelport
-      - name: Test
+      - name: Analyze modelport_flutter
+        working-directory: dart/packages/modelport_flutter
+        run: flutter analyze --fatal-infos
+      - name: Test modelport
         working-directory: dart/packages/modelport
         run: dart test
+      - name: Test modelport_flutter
+        working-directory: dart/packages/modelport_flutter
+        run: flutter test
