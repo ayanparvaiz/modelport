@@ -1,0 +1,344 @@
+{
+  "cases": [
+    {
+      "name": "imagenet_like",
+      "image": "gradient.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          32,
+          32
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "shorter_side": 40,
+            "antialias": true
+          },
+          "center_crop": [
+            32,
+            32
+          ],
+          "mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        }
+      },
+      "expected": "expected/imagenet_like.bin"
+    },
+    {
+      "name": "bicubic_odd_crop",
+      "image": "noise.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          24,
+          24
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "shorter_side": 31,
+            "method": "bicubic",
+            "antialias": true
+          },
+          "center_crop": [
+            24,
+            24
+          ]
+        }
+      },
+      "expected": "expected/bicubic_odd_crop.bin"
+    },
+    {
+      "name": "upscale_bilinear_aa",
+      "image": "noise.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          80,
+          60
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              80,
+              60
+            ],
+            "antialias": true
+          }
+        }
+      },
+      "expected": "expected/upscale_bilinear_aa.bin"
+    },
+    {
+      "name": "bilinear_plain_down",
+      "image": "gradient.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          20,
+          30
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              20,
+              30
+            ]
+          }
+        }
+      },
+      "expected": "expected/bilinear_plain_down.bin"
+    },
+    {
+      "name": "bilinear_plain_up",
+      "image": "tall.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          90,
+          45
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              90,
+              45
+            ]
+          }
+        }
+      },
+      "expected": "expected/bilinear_plain_up.bin"
+    },
+    {
+      "name": "nearest_down",
+      "image": "noise.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          17,
+          23
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              17,
+              23
+            ],
+            "method": "nearest"
+          }
+        }
+      },
+      "expected": "expected/nearest_down.bin"
+    },
+    {
+      "name": "nearest_up",
+      "image": "tall.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          100,
+          50
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              100,
+              50
+            ],
+            "method": "nearest"
+          }
+        }
+      },
+      "expected": "expected/nearest_up.bin"
+    },
+    {
+      "name": "bgr_nhwc_unscaled",
+      "image": "gradient.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          16,
+          16,
+          3
+        ],
+        "layout": "NHWC",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              16,
+              16
+            ],
+            "antialias": true
+          },
+          "color": "BGR",
+          "scale": 1.0
+        }
+      },
+      "expected": "expected/bgr_nhwc_unscaled.bin"
+    },
+    {
+      "name": "uint8_input",
+      "image": "noise.png",
+      "input": {
+        "name": "x",
+        "dtype": "uint8",
+        "shape": [
+          1,
+          3,
+          16,
+          16
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              16,
+              16
+            ],
+            "antialias": true
+          },
+          "scale": 1.0
+        }
+      },
+      "expected": "expected/uint8_input.bin"
+    },
+    {
+      "name": "float16_input",
+      "image": "gradient.png",
+      "input": {
+        "name": "x",
+        "dtype": "float16",
+        "shape": [
+          1,
+          3,
+          32,
+          32
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "shorter_side": 40,
+            "antialias": true
+          },
+          "center_crop": [
+            32,
+            32
+          ],
+          "mean": [
+            0.485,
+            0.456,
+            0.406
+          ],
+          "std": [
+            0.229,
+            0.224,
+            0.225
+          ]
+        }
+      },
+      "expected": "expected/float16_input.bin"
+    },
+    {
+      "name": "crop_pads_small_image",
+      "image": "tall.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          24,
+          24
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              20,
+              10
+            ],
+            "antialias": true
+          },
+          "center_crop": [
+            24,
+            24
+          ]
+        }
+      },
+      "expected": "expected/crop_pads_small_image.bin"
+    },
+    {
+      "name": "same_size_is_unchanged",
+      "image": "gradient.png",
+      "input": {
+        "name": "x",
+        "dtype": "float32",
+        "shape": [
+          1,
+          3,
+          48,
+          64
+        ],
+        "layout": "NCHW",
+        "preprocess": {
+          "type": "image",
+          "resize": {
+            "size": [
+              48,
+              64
+            ]
+          }
+        }
+      },
+      "expected": "expected/same_size_is_unchanged.bin"
+    }
+  ]
+}

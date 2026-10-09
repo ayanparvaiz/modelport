@@ -48,3 +48,4 @@ dist/
 
 # Spike outputs
 spikes/**/out/
+!spec/fixtures/**/*.bin
