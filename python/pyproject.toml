@@ -1,6 +1,6 @@
 [project]
 name = "modelport"
-version = "0.1.0.dev0"
+version = "0.1.0"
 description = "Prepare PyTorch, Hugging Face, and GGUF models for Flutter apps: export, verify, pack, publish."
 readme = "README.md"
 license = "Apache-2.0"
@@ -9,7 +9,7 @@ requires-python = ">=3.11"
 authors = [{ name = "Ayan Parvaiz" }]
 keywords = ["flutter", "dart", "onnx", "executorch", "gguf", "on-device", "mobile", "ai"]
 classifiers = [
-  "Development Status :: 2 - Pre-Alpha",
+  "Development Status :: 3 - Alpha",
   "Environment :: Console",
   "Intended Audience :: Developers",
   "Programming Language :: Python :: 3",
@@ -29,7 +29,9 @@ dependencies = [
 
 [project.urls]
 Homepage = "https://github.com/ayanparvaiz/modelport"
+Documentation = "https://ayanparvaiz.github.io/modelport/"
 Issues = "https://github.com/ayanparvaiz/modelport/issues"
+Changelog = "https://github.com/ayanparvaiz/modelport/blob/main/python/CHANGELOG.md"
 
 [project.scripts]
 modelport = "modelport.cli:app"

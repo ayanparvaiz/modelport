@@ -2,7 +2,7 @@
 
 Prepare models for Flutter apps. Part of [ModelPort](https://github.com/ayanparvaiz/modelport).
 
-> **Status: early development.** The CLI works end to end. The Flutter packages are not published yet.
+> **Status: 0.1.0, alpha.** Works end to end and is tested on a real Android phone. The spec may still change before 1.0.
 
 The CLI converts PyTorch, Hugging Face, and torchvision models into mobile formats, checks that the converted model gives the same output as the original, and writes a `modelport.json` manifest that the ModelPort Dart packages read.
 
