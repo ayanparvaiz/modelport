@@ -11,7 +11,14 @@ from PIL import Image
 from .bundle import Bundle
 from .exporters import ExportError, get_exporter
 from .golden import dtype_of, make_golden, sample_image
-from .manifest import ClassificationPostprocess, Manifest, OutputSpec, Task, Variant
+from .manifest import (
+    ClassificationPostprocess,
+    DetectionPostprocess,
+    Manifest,
+    OutputSpec,
+    Task,
+    Variant,
+)
 from .sources import SourceModel
 
 
@@ -58,14 +65,22 @@ def export_bundle(
     outputs = []
     for index, name in enumerate(source.output_names):
         array = golden.outputs[name]
-        postprocess = None
+        postprocess: ClassificationPostprocess | DetectionPostprocess | None = None
         if index == 0 and source.task is Task.IMAGE_CLASSIFICATION:
             classes = int(array.shape[-1])
-            if source.labels and len(source.labels) != classes:
-                raise ExportError(
-                    f"model has {classes} classes but {len(source.labels)} labels were given"
-                )
+            _check_labels(source, classes)
             postprocess = ClassificationPostprocess(labels=labels, top_k=min(source.top_k, classes))
+        elif index == 0 and source.task is Task.OBJECT_DETECTION:
+            if source.detection is None:
+                raise ExportError("object detection sources must describe their outputs")
+            detection = source.detection
+            classes = int(array.shape[-1])
+            if detection.format == "rows":
+                classes -= 4 + (1 if detection.has_objectness else 0)
+            elif detection.background_class:
+                classes -= 1
+            _check_labels(source, classes)
+            postprocess = detection.model_copy(update={"labels": labels})
         outputs.append(
             OutputSpec(
                 name=name, dtype=dtype_of(array), shape=list(array.shape), postprocess=postprocess
@@ -87,3 +102,8 @@ def export_bundle(
     )
     bundle.write_manifest(manifest)
     return bundle, manifest
+
+
+def _check_labels(source: SourceModel, classes: int) -> None:
+    if source.labels and len(source.labels) != classes:
+        raise ExportError(f"model has {classes} classes but {len(source.labels)} labels were given")

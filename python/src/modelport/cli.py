@@ -162,6 +162,10 @@ def export(
         ),
     ] = None,
     force: Annotated[bool, typer.Option("--force", help="Replace an existing bundle.")] = False,
+    image_size: Annotated[
+        int | None,
+        typer.Option("--image-size", help="Square input size for detectors that accept any size."),
+    ] = None,
 ) -> None:
     """Convert a model and write a bundle with modelport.json and golden test data."""
     from .pipeline import export_bundle
@@ -171,7 +175,7 @@ def export(
     targets = [t.strip() for item in target for t in item.split(",") if t.strip()]
     try:
         with console.status(f"Loading {source}"):
-            model = load_source(source, license=license)
+            model = load_source(source, license=license, image_size=image_size)
         image = load_image(sample_image) if sample_image else None
         with console.status(f"Exporting {model.id} to {', '.join(targets)}"):
             bundle, manifest = export_bundle(
