@@ -763,8 +763,8 @@ Prottek phase e thakbe **lokkho**, **kaj er checklist**, ar **kokhon shesh dhorb
 **Lokkho:** Prothom kajer tool. Ek command e model theke verified bundle.
 
 - [x] Typer app skeleton. `modelport --help` e sob command dekhay. *(`--version`, `schema`, `validate` ache.)*
-- [ ] `doctor` command.
-- [ ] `inspect` command, `.onnx` file er jonno.
+- [x] `doctor` command.
+- [x] `inspect` command, `.onnx` file er jonno. *(`.pte` ar `.gguf` o support kore, `--json` option shoho.)*
 - [ ] Source loader: `torchvision:`, `hf:` (image classification), `file:script.py:fn`.
 - [ ] `hf:` model er preprocessing `AutoImageProcessor` config theke auto nibe: size, mean, std, resample.
 - [ ] ONNX exporter: `dynamo=True`, `onnx.checker`, opset thik kora.
@@ -773,7 +773,7 @@ Prottek phase e thakbe **lokkho**, **kaj er checklist**, ar **kokhon shesh dhorb
 - [ ] `pack`: sha256, size, final manifest.
 - [ ] `publish --hf`: `huggingface_hub` diye upload.
 - [ ] Unit test, tiny model diye jate fast chole.
-- [ ] GitHub Actions `python.yml`: ruff, pyright, pytest.
+- [x] GitHub Actions `python.yml`: ruff, pyright, pytest.
 
 **Shesh jokhon:** Ei tin ta command kaj kore, ar Hugging Face e bundle dekha jay:
 
