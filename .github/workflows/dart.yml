@@ -33,12 +33,16 @@ jobs:
         run: dart format --output=none --set-exit-if-changed packages
       - name: Analyze modelport
         run: dart analyze --fatal-infos packages/modelport
-      - name: Analyze modelport_flutter
-        working-directory: dart/packages/modelport_flutter
-        run: flutter analyze --fatal-infos
+      - name: Analyze Flutter packages and example
+        run: |
+          for dir in packages/modelport_flutter packages/modelport_onnx packages/modelport_onnx/example; do
+            (cd "$dir" && flutter analyze --fatal-infos)
+          done
       - name: Test modelport
         working-directory: dart/packages/modelport
         run: dart test
-      - name: Test modelport_flutter
-        working-directory: dart/packages/modelport_flutter
-        run: flutter test
+      - name: Test Flutter packages
+        run: |
+          for dir in packages/modelport_flutter packages/modelport_onnx; do
+            (cd "$dir" && flutter test)
+          done
