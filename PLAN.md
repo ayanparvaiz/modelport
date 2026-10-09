@@ -789,20 +789,22 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Engine chara puro flow Dart e kaj kore.
 
-- [ ] `dart/` e pub workspace. `packages/modelport` banao (`dart create -t package`).
-- [ ] Manifest class, `fromJson`, validation. `spec/examples` diye test, tai Python ar Dart ekoi file e test hoy.
-- [ ] `Tensor` class: dtype, shape, data.
-- [ ] Source resolver: `hf://`, `https://`, `asset://`, `file://`.
-- [ ] `ModelStore`: progress stream, resume (HTTP Range), sha256, `.part` theke rename, cancel, delete, cache size.
-- [ ] `VariantSelector`: registered adapter, platform, RAM dekhe bachai.
-- [ ] Image preprocessing: decode, EXIF rotation thik, resize (manifest er algorithm), crop, normalize, NCHW ba NHWC.
-- [ ] Postprocessing: softmax, top-k, labels.
-- [ ] **Cross-language test:** Python e preprocess kora tensor ar Dart e preprocess kora tensor er difference choto kina.
-- [ ] `RuntimeAdapter` interface, ar test er jonno ekta fake adapter.
-- [ ] `dart.yml` CI: format, analyze, test.
-- [ ] `packages/modelport_flutter`: `path_provider` diye cache folder, asset loader, `ModelPortFlutter.init`.
+- [x] `dart/` e pub workspace. `packages/modelport` banao (`dart create -t package`).
+- [x] Manifest class, `fromJson`, validation. `spec/examples` diye test, tai Python ar Dart ekoi file e test hoy.
+- [x] `Tensor` class: dtype, shape, data.
+- [x] Source resolver: `hf://`, `https://`, `asset://`, `file://`.
+- [x] `ModelStore`: progress stream, resume (HTTP Range), sha256, `.part` theke rename, cancel, delete, cache size.
+- [x] `VariantSelector`: registered adapter, platform, RAM dekhe bachai.
+- [x] Image preprocessing: decode, EXIF rotation thik, resize (manifest er algorithm), crop, normalize, NCHW ba NHWC.
+- [x] Postprocessing: softmax, top-k, labels.
+- [x] **Cross-language test:** Python e preprocess kora tensor ar Dart e preprocess kora tensor er difference choto kina.
+- [x] `RuntimeAdapter` interface, ar test er jonno ekta fake adapter.
+- [x] `dart.yml` CI: format, analyze, test.
+- [x] `packages/modelport_flutter`: `path_provider` diye cache folder, asset loader, `ModelPortFlutter.init`.
 
 **Shesh jokhon:** Fake adapter diye puro flow (resolve → download → verify → preprocess → run → postprocess) unit test e pass kore.
+
+> **Hoye geche (2026-10-10):** 98 ta Dart test. 12 ta preprocessing fixture e Dart ar Python er tensor **byte-for-byte ek**. Download resume, sha256, offline manifest, ar phone e golden check (`checkGolden`) o ache.
 
 ---
 
