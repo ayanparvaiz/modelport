@@ -2,8 +2,10 @@ name: modelport_flutter
 description: >-
   Flutter setup for ModelPort: app cache folder, asset bundles, and device
   RAM for picking model variants.
-version: 0.1.0-dev.1
-repository: https://github.com/ayanparvaiz/modelport
+version: 0.1.0
+homepage: https://ayanparvaiz.github.io/modelport/
+repository: https://github.com/ayanparvaiz/modelport/tree/main/dart/packages/modelport_flutter
+documentation: https://ayanparvaiz.github.io/modelport/
 issue_tracker: https://github.com/ayanparvaiz/modelport/issues
 topics:
   - ai
@@ -22,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.6.0
-  modelport: ^0.1.0-dev.1
+  modelport: ^0.1.0
   path: ^1.9.1
   path_provider: ^2.1.6
 

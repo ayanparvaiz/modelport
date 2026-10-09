@@ -2,8 +2,10 @@ name: modelport_llamacpp
 description: >-
   llama.cpp adapter for ModelPort. Runs GGUF language models from
   modelport.json bundles with streaming chat.
-version: 0.1.0-dev.1
-repository: https://github.com/ayanparvaiz/modelport
+version: 0.1.0
+homepage: https://ayanparvaiz.github.io/modelport/
+repository: https://github.com/ayanparvaiz/modelport/tree/main/dart/packages/modelport_llamacpp
+documentation: https://ayanparvaiz.github.io/modelport/
 issue_tracker: https://github.com/ayanparvaiz/modelport/issues
 topics:
   - ai
@@ -19,7 +21,7 @@ resolution: workspace
 
 dependencies:
   llm_llamacpp: ^0.7.0
-  modelport: ^0.1.0-dev.1
+  modelport: ^0.1.0
 
 dev_dependencies:
   lints: ^6.0.0

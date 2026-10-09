@@ -1,3 +1,6 @@
-## 0.1.0-dev.1
+## 0.1.0
 
-- Initial development version.
+First release.
+
+* `ModelPortFlutter.init`: cache folder, `asset://` bundles, device RAM, and adapters.
+* `decodeImageWithFlutter`: native image decoding with EXIF orientation, registered by default.

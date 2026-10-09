@@ -1,3 +1,6 @@
-## 0.1.0-dev.1
+## 0.1.0
 
-- Initial development version.
+First release.
+
+* `ExecuTorchAdapter` runs `executorch` (`.pte`) variants with `executorch_flutter`, XNNPACK everywhere and CoreML or MPS on Apple platforms.
+* Tested on Android and macOS with MobileNetV3 and YOLOS Tiny.

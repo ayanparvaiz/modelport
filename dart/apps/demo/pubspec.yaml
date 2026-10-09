@@ -14,10 +14,10 @@ dependencies:
   flutter:
     sdk: flutter
   image_picker: ^1.2.4
-  modelport_executorch: ^0.1.0-dev.1
-  modelport_flutter: ^0.1.0-dev.1
-  modelport_llamacpp: ^0.1.0-dev.1
-  modelport_onnx: ^0.1.0-dev.1
+  modelport_executorch: ^0.1.0
+  modelport_flutter: ^0.1.0
+  modelport_llamacpp: ^0.1.0
+  modelport_onnx: ^0.1.0
   path: ^1.9.1
 
 dev_dependencies:

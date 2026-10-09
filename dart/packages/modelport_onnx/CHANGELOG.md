@@ -1,3 +1,6 @@
-## 0.1.0-dev.1
+## 0.1.0
 
-- Initial development version.
+First release.
+
+* `OnnxAdapter` runs `onnx` variants with `flutter_onnxruntime`, taking tensor details from the manifest.
+* Tested on Android (fp32, fp16, and int8 variants) and macOS.
