@@ -40,9 +40,11 @@ jobs:
           for dir in "" onnx-fp32 onnx-fp16 onnx-int8 golden; do
             mkdir -p "$base/models/mobilenet_v3_small/$dir"
           done
+          base=packages/modelport_executorch/example/assets
+          mkdir -p "$base/images" "$base/models/mobilenet_v3_small/executorch-xnnpack-fp32" "$base/models/mobilenet_v3_small/golden"
       - name: Analyze Flutter packages and example
         run: |
-          for dir in packages/modelport_flutter packages/modelport_onnx packages/modelport_onnx/example; do
+          for dir in packages/modelport_flutter packages/modelport_onnx packages/modelport_onnx/example packages/modelport_executorch packages/modelport_executorch/example; do
             (cd "$dir" && flutter analyze --fatal-infos)
           done
       - name: Test modelport
@@ -50,6 +52,6 @@ jobs:
         run: dart test
       - name: Test Flutter packages
         run: |
-          for dir in packages/modelport_flutter packages/modelport_onnx; do
+          for dir in packages/modelport_flutter packages/modelport_onnx packages/modelport_executorch; do
             (cd "$dir" && flutter test)
           done
