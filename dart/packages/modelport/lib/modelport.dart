@@ -12,4 +12,5 @@ export 'src/manifest/tensors.dart';
 export 'src/postprocess/classification.dart';
 export 'src/preprocess/image_preprocess.dart' show preprocessImage, resizedSize;
 export 'src/preprocess/rgb_image.dart';
+export 'src/store/location.dart';
 export 'src/tensor.dart';
