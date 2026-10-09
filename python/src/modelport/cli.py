@@ -328,6 +328,89 @@ def publish(
     console.print(f"Load it in Flutter with: {result.hf_uri}", highlight=False)
 
 
+@app.command("import-gguf")
+def import_gguf(
+    source: Annotated[
+        str,
+        typer.Argument(
+            help="Hugging Face repo like Qwen/Qwen2.5-0.5B-Instruct-GGUF, or a .gguf file."
+        ),
+    ],
+    quant: Annotated[
+        list[str],
+        typer.Option("--quant", "-q", help="Quantizations to include, in order of preference."),
+    ] = ["q4_k_m"],  # noqa: B006 - Typer reads list defaults
+    context: Annotated[int, typer.Option(help="Context window to allocate on device.")] = 4096,
+    license: Annotated[str | None, typer.Option(help="SPDX license, if the repo has none.")] = None,
+    model_id: Annotated[
+        str | None, typer.Option("--id", help="Bundle id. Taken from the source by default.")
+    ] = None,
+    revision: Annotated[str | None, typer.Option(help="Repo branch, tag, or commit.")] = None,
+    out: Annotated[Path, typer.Option("--out", "-o", help="Folder for bundles.")] = Path("dist"),
+    force: Annotated[bool, typer.Option("--force", help="Replace an existing bundle.")] = False,
+) -> None:
+    """Describe a ready-made GGUF language model with a manifest.
+
+    Hub files are not downloaded: the manifest points at them with pinned URLs.
+    """
+    import shutil
+
+    from .bundle import Bundle
+    from .gguf_import import import_from_file, import_from_hub
+
+    quants = [q.strip() for item in quant for q in item.split(",") if q.strip()]
+    local = Path(source)
+    try:
+        if local.is_file():
+            if license is None:
+                raise ModelPortError("local GGUF files need --license")
+            shutil.rmtree(out / ".import", ignore_errors=True)
+            staging = Bundle(out / ".import")
+            result = import_from_file(
+                local, staging, context=context, license=license, model_id=model_id
+            )
+            root = out / result.manifest.id
+        else:
+            repo = source.removeprefix("hf:")
+            with console.status(f"Reading {repo} from the Hugging Face Hub"):
+                result = import_from_hub(
+                    repo,
+                    quants,
+                    revision=revision,
+                    context=context,
+                    license=license,
+                    model_id=model_id,
+                )
+            root = out / result.manifest.id
+            staging = None
+        if root.exists() and any(root.iterdir()):
+            if not force:
+                raise ModelPortError(f"{root} already exists. Use --force to replace it.")
+            shutil.rmtree(root)
+        if staging is not None:
+            root.parent.mkdir(parents=True, exist_ok=True)
+            staging.root.rename(root)
+        bundle = Bundle(root)
+        bundle.write_manifest(result.manifest)
+    except ModelPortError as error:
+        err_console.print(f"[red]Error:[/red] {error}", highlight=False)
+        raise typer.Exit(code=1) from error
+
+    console.print(f"Wrote {bundle.manifest_path}", highlight=False)
+    table = Table(show_edge=False)
+    table.add_column("variant", no_wrap=True)
+    table.add_column("size", justify="right")
+    table.add_column("min RAM", justify="right")
+    for variant in result.manifest.variants:
+        table.add_row(variant.id, _format_size(variant.file.size), f"{variant.min_ram_mb} MB")
+    console.print(table)
+    for warning in result.warnings:
+        console.print(f"[yellow]![/] {warning}", highlight=False)
+    console.print(
+        f"\nNext: modelport publish {bundle.root} --hf <your-org>/<name>", highlight=False
+    )
+
+
 @app.command("inspect")
 def inspect_command(
     path: Annotated[Path, typer.Argument(help="A .onnx, .pte, or .gguf model file.")],
