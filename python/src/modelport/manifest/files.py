@@ -29,7 +29,9 @@ class FileRef(StrictModel):
     url: str | None = Field(
         default=None,
         pattern=r"^https://\S+$",
-        description="Absolute HTTPS URL. Use for files hosted elsewhere, such as an original GGUF repo.",
+        description=(
+            "Absolute HTTPS URL. Use for files hosted elsewhere, such as an original GGUF repo."
+        ),
     )
     size: int = Field(gt=0, description="File size in bytes.")
     sha256: Sha256
