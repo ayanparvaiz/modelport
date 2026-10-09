@@ -15,7 +15,7 @@ Model: MobileNetV3 Small (torchvision), bundle e onnx-fp32, onnx-fp16, onnx-int8
 
 Phone er number Python er sathe **hubohu ek**. Mane export, manifest, download/cache, adapter, sob thik.
 
-**Kholа proshno mitlo:** fp16 model purono ARMv8.0 CPU teo chole ar thik result dey.
+**Khola proshno mitlo:** fp16 model purono ARMv8.0 CPU teo chole ar thik result dey.
 
 ## Asol chobi
 
