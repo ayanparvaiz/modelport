@@ -73,7 +73,7 @@ def collect_report(
         if missing and len(missing) < len(statuses):
             problems.append(f"'{extra}' is only partly installed, missing: {', '.join(missing)}")
         if missing:
-            hints.append(f"pip install 'modelport[{extra}]'")
+            hints.append(f"pip install 'modelport-cli[{extra}]'")
     if free < LOW_DISK_BYTES:
         problems.append(f"Only {free / 1000**3:.1f} GB free. Exports and LLM downloads need more.")
 

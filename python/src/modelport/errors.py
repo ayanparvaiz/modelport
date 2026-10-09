@@ -12,6 +12,7 @@ class MissingDependencyError(ModelPortError):
 
     def __init__(self, feature: str, extra: str) -> None:
         super().__init__(
-            f"{feature} needs extra packages. Install them with: pip install 'modelport[{extra}]'"
+            f"{feature} needs extra packages. "
+            f"Install them with: pip install 'modelport-cli[{extra}]'"
         )
         self.extra = extra

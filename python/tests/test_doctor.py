@@ -23,7 +23,7 @@ def test_everything_installed(tmp_path):
 def test_missing_extra_gives_install_hint(tmp_path):
     versions = {k: v for k, v in ALL.items() if k != "gguf"}
     report = collect_report(tmp_path, version_of=versions.get)
-    assert report.hints == ["pip install 'modelport[gguf]'"]
+    assert report.hints == ["pip install 'modelport-cli[gguf]'"]
     assert not any("gguf" in problem for problem in report.problems)
 
 
@@ -31,4 +31,4 @@ def test_partly_installed_extra_is_a_problem(tmp_path):
     versions = {k: v for k, v in ALL.items() if k != "onnxscript"}
     report = collect_report(tmp_path, version_of=versions.get)
     assert any("missing: onnxscript" in problem for problem in report.problems)
-    assert report.hints == ["pip install 'modelport[onnx]'"]
+    assert report.hints == ["pip install 'modelport-cli[onnx]'"]

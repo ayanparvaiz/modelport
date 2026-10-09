@@ -1,5 +1,5 @@
 [project]
-name = "modelport"
+name = "modelport-cli"
 version = "0.1.0"
 description = "Prepare PyTorch, Hugging Face, and GGUF models for Flutter apps: export, verify, pack, publish."
 readme = "README.md"

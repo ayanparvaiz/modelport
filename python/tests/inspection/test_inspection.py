@@ -77,5 +77,5 @@ def test_missing_file_is_rejected(tmp_path):
 def test_missing_optional_package_explains_the_extra(tiny_onnx, monkeypatch):
     # A None entry makes `import onnx` raise ImportError, as if it were not installed.
     monkeypatch.setitem(sys.modules, "onnx", None)
-    with pytest.raises(MissingDependencyError, match=r"modelport\[onnx\]"):
+    with pytest.raises(MissingDependencyError, match=r"modelport-cli\[onnx\]"):
         inspect_model(tiny_onnx)

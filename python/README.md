@@ -1,6 +1,8 @@
-# modelport (Python CLI)
+# modelport-cli
 
 Prepare models for Flutter apps. Part of [ModelPort](https://github.com/ayanparvaiz/modelport).
+
+Install `modelport-cli`; the command and the Python package are both called `modelport`.
 
 > **Status: 0.1.0, alpha.** Works end to end and is tested on a real Android phone. The spec may still change before 1.0.
 
@@ -9,7 +11,7 @@ The CLI converts PyTorch, Hugging Face, and torchvision models into mobile forma
 ## Install
 
 ```bash
-pip install "modelport[onnx,torchvision]"
+pip install "modelport-cli[onnx,torchvision]"
 ```
 
 | Extra | Adds | Needed for |

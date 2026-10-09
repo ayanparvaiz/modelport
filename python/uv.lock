@@ -931,7 +931,7 @@ wheels = [
 ]
 
 [[package]]
-name = "modelport"
+name = "modelport-cli"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
