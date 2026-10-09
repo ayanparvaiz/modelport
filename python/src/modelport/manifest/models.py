@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections import Counter
 from enum import StrEnum
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import Field, model_validator
 
@@ -105,8 +105,17 @@ class Golden(StrictModel):
     tolerance: Tolerance = Field(default_factory=Tolerance)
 
 
+def _require_schema_key(schema: dict[str, Any]) -> None:
+    """Files must always state their spec version, even though Python fills a default."""
+    required = schema.setdefault("required", [])
+    if "schema" not in required:
+        required.insert(0, "schema")
+
+
 class Manifest(StrictModel):
     """Everything an app needs to download, run, and interpret a model."""
+
+    model_config = StrictModel.model_config | {"json_schema_extra": _require_schema_key}
 
     schema_version: Literal["modelport/0.1"] = Field(default=SCHEMA_VERSION, alias="schema")
     id: str = Field(pattern=_ID_PATTERN, examples=["mobilenet_v3_small"])
