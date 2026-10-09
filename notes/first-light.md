@@ -38,3 +38,18 @@ Debug mode e (integration test default) decode 2252 ms, preprocess 607 ms, run 1
 1. **JPEG decode i sobcheye boro bottleneck.** Pure Dart decoder dhire. Flutter engine er native decoder (`ui.instantiateImageCodec`) use korle onek druto hobar kotha. Porer kaj.
 2. Preprocess o isolate e pathano uchit, jate UI atke na jay.
 3. Prothom load e asset theke cache e copy ar sha256 hoy (fp32 1.7 s debug e). Porer load cache theke.
+
+## Update: native decoder (2026-10-10)
+
+`modelport_flutter` ekhon Flutter engine er native decoder use kore, ar decode/preprocess isolate e chole.
+
+| Step | Age (`package:image`) | Ekhon (native) |
+|---|---|---|
+| JPEG decode | 717 ms | **302 ms** |
+| Preprocess | 133 ms | 157 ms |
+| Model run | 70 ms | 77 ms |
+| Mot classify | ~950 ms | **584 ms** |
+
+Native decoder er JPEG pixel samanyo alada, tai Samoyed er score 0.77 theke 0.76. Top-1 ekoi. PNG e pixel hubohu ek (test ache).
+
+Aro druto korar upay (pore): decode er somoy i choto kore pora (`targetWidth`), kintu tate resize er niyom bodlay, tai eta optional "fast mode" hishebe bhabte hobe.
