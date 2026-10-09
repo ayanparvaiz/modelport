@@ -1,0 +1,708 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/ayanparvaiz/modelport/main/spec/manifest.schema.json",
+  "$defs": {
+    "ClassificationPostprocess": {
+      "additionalProperties": false,
+      "description": "Scores over a fixed set of classes, for example ImageNet logits of shape [1, 1000].",
+      "properties": {
+        "type": {
+          "const": "classification",
+          "default": "classification",
+          "title": "Type",
+          "type": "string"
+        },
+        "activation": {
+          "default": "softmax",
+          "description": "Applied to raw scores before ranking.",
+          "enum": [
+            "softmax",
+            "sigmoid",
+            "none"
+          ],
+          "title": "Activation",
+          "type": "string"
+        },
+        "labels": {
+          "$ref": "#/$defs/FileRef",
+          "description": "UTF-8 text file with one class name per line."
+        },
+        "top_k": {
+          "default": 5,
+          "description": "How many results to return by default.",
+          "exclusiveMinimum": 0,
+          "title": "Top K",
+          "type": "integer"
+        }
+      },
+      "title": "ClassificationPostprocess",
+      "type": "object"
+    },
+    "DType": {
+      "description": "Element type of a tensor.",
+      "enum": [
+        "float32",
+        "float16",
+        "int64",
+        "int32",
+        "int8",
+        "uint8",
+        "bool"
+      ],
+      "title": "DType",
+      "type": "string"
+    },
+    "DetectionPostprocess": {
+      "additionalProperties": false,
+      "description": "Boxes with class scores, shaped [1, N, 4 + objectness + classes].\n\nDraft for spec 0.1. The exact layout will be confirmed when the first detection model\nis exported in Phase 7.",
+      "properties": {
+        "type": {
+          "const": "detection",
+          "default": "detection",
+          "title": "Type",
+          "type": "string"
+        },
+        "box_format": {
+          "default": "cxcywh",
+          "description": "How the first four values of each row describe a box.",
+          "enum": [
+            "xyxy",
+            "cxcywh"
+          ],
+          "title": "Box Format",
+          "type": "string"
+        },
+        "has_objectness": {
+          "default": true,
+          "description": "Whether a single objectness score follows the box values.",
+          "title": "Has Objectness",
+          "type": "boolean"
+        },
+        "score_threshold": {
+          "default": 0.25,
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Score Threshold",
+          "type": "number"
+        },
+        "iou_threshold": {
+          "default": 0.45,
+          "description": "Overlap above which non-max suppression drops boxes.",
+          "maximum": 1,
+          "minimum": 0,
+          "title": "Iou Threshold",
+          "type": "number"
+        },
+        "max_detections": {
+          "default": 100,
+          "exclusiveMinimum": 0,
+          "title": "Max Detections",
+          "type": "integer"
+        },
+        "labels": {
+          "$ref": "#/$defs/FileRef"
+        }
+      },
+      "title": "DetectionPostprocess",
+      "type": "object"
+    },
+    "FileRef": {
+      "additionalProperties": false,
+      "description": "A file that belongs to a model, such as weights, labels, or golden test data.\n\nExactly one of `path` or `url` must be set.",
+      "oneOf": [
+        {
+          "required": [
+            "path"
+          ]
+        },
+        {
+          "required": [
+            "url"
+          ]
+        }
+      ],
+      "properties": {
+        "path": {
+          "description": "POSIX path relative to the manifest file. Use for files inside the bundle.",
+          "examples": [
+            "onnx-fp32/model.onnx",
+            "labels.txt"
+          ],
+          "title": "Path",
+          "type": "string"
+        },
+        "url": {
+          "description": "Absolute HTTPS URL. Use for files hosted elsewhere, such as an original GGUF repo.",
+          "pattern": "^https://\\S+$",
+          "title": "Url",
+          "type": "string"
+        },
+        "size": {
+          "description": "File size in bytes.",
+          "exclusiveMinimum": 0,
+          "title": "Size",
+          "type": "integer"
+        },
+        "sha256": {
+          "description": "Lowercase hex SHA-256 digest of the file.",
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "size",
+        "sha256"
+      ],
+      "title": "FileRef",
+      "type": "object"
+    },
+    "GenerationDefaults": {
+      "additionalProperties": false,
+      "description": "Default sampling settings. Apps can override each one per request.",
+      "properties": {
+        "temperature": {
+          "default": 0.7,
+          "maximum": 2,
+          "minimum": 0,
+          "title": "Temperature",
+          "type": "number"
+        },
+        "top_p": {
+          "default": 0.9,
+          "exclusiveMinimum": 0,
+          "maximum": 1,
+          "title": "Top P",
+          "type": "number"
+        },
+        "top_k": {
+          "exclusiveMinimum": 0,
+          "title": "Top K",
+          "type": "integer"
+        },
+        "max_tokens": {
+          "default": 512,
+          "exclusiveMinimum": 0,
+          "title": "Max Tokens",
+          "type": "integer"
+        },
+        "repeat_penalty": {
+          "exclusiveMinimum": 0,
+          "title": "Repeat Penalty",
+          "type": "number"
+        }
+      },
+      "title": "GenerationDefaults",
+      "type": "object"
+    },
+    "Golden": {
+      "additionalProperties": false,
+      "description": "Saved inputs and expected outputs, used to prove a device matches Python.\n\nEach file holds raw little-endian tensor data in the dtype and shape of the tensor\nwith the same name.",
+      "properties": {
+        "inputs": {
+          "additionalProperties": {
+            "$ref": "#/$defs/FileRef"
+          },
+          "minProperties": 1,
+          "title": "Inputs",
+          "type": "object"
+        },
+        "outputs": {
+          "additionalProperties": {
+            "$ref": "#/$defs/FileRef"
+          },
+          "minProperties": 1,
+          "title": "Outputs",
+          "type": "object"
+        },
+        "tolerance": {
+          "$ref": "#/$defs/Tolerance"
+        }
+      },
+      "required": [
+        "inputs",
+        "outputs"
+      ],
+      "title": "Golden",
+      "type": "object"
+    },
+    "ImagePreprocess": {
+      "additionalProperties": false,
+      "description": "Turn a decoded image into a tensor.\n\nSteps run in this order: resize, center crop, channel order, multiply by `scale`,\nsubtract `mean`, divide by `std`, then arrange in the input's layout.",
+      "properties": {
+        "type": {
+          "const": "image",
+          "default": "image",
+          "title": "Type",
+          "type": "string"
+        },
+        "resize": {
+          "$ref": "#/$defs/ResizeSpec"
+        },
+        "center_crop": {
+          "description": "Crop [height, width] from the center after resizing.",
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Center Crop",
+          "type": "array"
+        },
+        "color": {
+          "default": "RGB",
+          "enum": [
+            "RGB",
+            "BGR"
+          ],
+          "title": "Color",
+          "type": "string"
+        },
+        "scale": {
+          "default": 0.00392156862745098,
+          "description": "Multiplier applied to 0-255 pixels.",
+          "exclusiveMinimum": 0,
+          "title": "Scale",
+          "type": "number"
+        },
+        "mean": {
+          "default": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Mean",
+          "type": "array"
+        },
+        "std": {
+          "default": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "maxItems": 3,
+          "minItems": 3,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Std",
+          "type": "array"
+        }
+      },
+      "required": [
+        "resize"
+      ],
+      "title": "ImagePreprocess",
+      "type": "object"
+    },
+    "InputSpec": {
+      "additionalProperties": false,
+      "description": "A model input, with optional preprocessing rules.",
+      "properties": {
+        "name": {
+          "description": "Tensor name as the engine knows it.",
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "dtype": {
+          "$ref": "#/$defs/DType"
+        },
+        "shape": {
+          "description": "Dimensions. Use -1 for a dimension that is only known at run time.",
+          "examples": [
+            [
+              1,
+              3,
+              224,
+              224
+            ]
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Shape",
+          "type": "array"
+        },
+        "layout": {
+          "description": "Dimension order for image tensors.",
+          "enum": [
+            "NCHW",
+            "NHWC"
+          ],
+          "title": "Layout",
+          "type": "string"
+        },
+        "preprocess": {
+          "$ref": "#/$defs/ImagePreprocess"
+        }
+      },
+      "required": [
+        "name",
+        "dtype",
+        "shape"
+      ],
+      "title": "InputSpec",
+      "type": "object"
+    },
+    "LlmConfig": {
+      "additionalProperties": false,
+      "description": "Settings for text-generation models.",
+      "properties": {
+        "context_length": {
+          "description": "Maximum tokens the model can attend to.",
+          "exclusiveMinimum": 0,
+          "title": "Context Length",
+          "type": "integer"
+        },
+        "chat_template": {
+          "const": "from_gguf",
+          "default": "from_gguf",
+          "description": "Where the chat template comes from. Templates are never stored as code here.",
+          "title": "Chat Template",
+          "type": "string"
+        },
+        "defaults": {
+          "$ref": "#/$defs/GenerationDefaults"
+        }
+      },
+      "required": [
+        "context_length"
+      ],
+      "title": "LlmConfig",
+      "type": "object"
+    },
+    "OutputSpec": {
+      "additionalProperties": false,
+      "description": "A model output, with optional rules for turning it into results.",
+      "properties": {
+        "name": {
+          "description": "Tensor name as the engine knows it.",
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "dtype": {
+          "$ref": "#/$defs/DType"
+        },
+        "shape": {
+          "description": "Dimensions. Use -1 for a dimension that is only known at run time.",
+          "examples": [
+            [
+              1,
+              3,
+              224,
+              224
+            ]
+          ],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Shape",
+          "type": "array"
+        },
+        "postprocess": {
+          "discriminator": {
+            "mapping": {
+              "classification": "#/$defs/ClassificationPostprocess",
+              "detection": "#/$defs/DetectionPostprocess"
+            },
+            "propertyName": "type"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ClassificationPostprocess"
+            },
+            {
+              "$ref": "#/$defs/DetectionPostprocess"
+            }
+          ],
+          "title": "Postprocess"
+        }
+      },
+      "required": [
+        "name",
+        "dtype",
+        "shape"
+      ],
+      "title": "OutputSpec",
+      "type": "object"
+    },
+    "ResizeSpec": {
+      "additionalProperties": false,
+      "description": "How to resize an image. Set exactly one of `shorter_side` or `size`.",
+      "oneOf": [
+        {
+          "required": [
+            "shorter_side"
+          ]
+        },
+        {
+          "required": [
+            "size"
+          ]
+        }
+      ],
+      "properties": {
+        "shorter_side": {
+          "description": "Scale so the shorter side has this length, keeping the aspect ratio.",
+          "exclusiveMinimum": 0,
+          "title": "Shorter Side",
+          "type": "integer"
+        },
+        "size": {
+          "description": "Exact output size as [height, width]. Ignores aspect ratio.",
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Size",
+          "type": "array"
+        },
+        "method": {
+          "default": "bilinear",
+          "enum": [
+            "bilinear",
+            "nearest",
+            "bicubic"
+          ],
+          "title": "Method",
+          "type": "string"
+        },
+        "antialias": {
+          "default": false,
+          "description": "Whether to low-pass filter when shrinking. Python and Dart must agree.",
+          "title": "Antialias",
+          "type": "boolean"
+        }
+      },
+      "title": "ResizeSpec",
+      "type": "object"
+    },
+    "Runtime": {
+      "description": "Inference engine that runs a variant.",
+      "enum": [
+        "onnx",
+        "executorch",
+        "llamacpp"
+      ],
+      "title": "Runtime",
+      "type": "string"
+    },
+    "Task": {
+      "description": "What the model does. Decides which Dart task API can load it.",
+      "enum": [
+        "image-classification",
+        "object-detection",
+        "text-generation"
+      ],
+      "title": "Task",
+      "type": "string"
+    },
+    "Tolerance": {
+      "additionalProperties": false,
+      "description": "How close two outputs must be: |a - b| <= atol + rtol * |b|.",
+      "properties": {
+        "atol": {
+          "default": 0.001,
+          "minimum": 0,
+          "title": "Atol",
+          "type": "number"
+        },
+        "rtol": {
+          "default": 0.001,
+          "minimum": 0,
+          "title": "Rtol",
+          "type": "number"
+        }
+      },
+      "title": "Tolerance",
+      "type": "object"
+    },
+    "Variant": {
+      "additionalProperties": false,
+      "description": "One concrete form of the model, such as ONNX fp32 or GGUF Q4_K_M.",
+      "properties": {
+        "id": {
+          "examples": [
+            "onnx-fp32",
+            "gguf-q4_k_m"
+          ],
+          "pattern": "^[a-z0-9][a-z0-9._-]*$",
+          "title": "Id",
+          "type": "string"
+        },
+        "runtime": {
+          "$ref": "#/$defs/Runtime"
+        },
+        "backend": {
+          "description": "Engine backend, such as 'xnnpack' or 'coreml'.",
+          "title": "Backend",
+          "type": "string"
+        },
+        "precision": {
+          "examples": [
+            "fp32",
+            "fp16",
+            "int8",
+            "q4_k_m"
+          ],
+          "pattern": "^[a-z0-9_]+$",
+          "title": "Precision",
+          "type": "string"
+        },
+        "file": {
+          "$ref": "#/$defs/FileRef",
+          "description": "The main model file."
+        },
+        "extra_files": {
+          "description": "Files the main file needs, such as ONNX external weights.",
+          "items": {
+            "$ref": "#/$defs/FileRef"
+          },
+          "title": "Extra Files",
+          "type": "array"
+        },
+        "min_ram_mb": {
+          "description": "Skip this variant on devices with less RAM.",
+          "exclusiveMinimum": 0,
+          "title": "Min Ram Mb",
+          "type": "integer"
+        },
+        "tolerance": {
+          "$ref": "#/$defs/Tolerance",
+          "description": "Overrides the golden tolerance, for example for int8."
+        }
+      },
+      "required": [
+        "id",
+        "runtime",
+        "precision",
+        "file"
+      ],
+      "title": "Variant",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "Everything an app needs to download, run, and interpret a model.",
+  "properties": {
+    "schema": {
+      "const": "modelport/0.1",
+      "default": "modelport/0.1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "id": {
+      "examples": [
+        "mobilenet_v3_small"
+      ],
+      "pattern": "^[a-z0-9][a-z0-9._-]*$",
+      "title": "Id",
+      "type": "string"
+    },
+    "version": {
+      "examples": [
+        "1.0.0"
+      ],
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z.-]+)?(?:\\+[0-9A-Za-z.-]+)?$",
+      "title": "Version",
+      "type": "string"
+    },
+    "task": {
+      "$ref": "#/$defs/Task"
+    },
+    "license": {
+      "description": "SPDX license identifier of the weights.",
+      "minLength": 1,
+      "title": "License",
+      "type": "string"
+    },
+    "name": {
+      "description": "Human-friendly name.",
+      "title": "Name",
+      "type": "string"
+    },
+    "description": {
+      "title": "Description",
+      "type": "string"
+    },
+    "source": {
+      "examples": [
+        "torchvision:mobilenet_v3_small"
+      ],
+      "title": "Source",
+      "type": "string"
+    },
+    "variants": {
+      "items": {
+        "$ref": "#/$defs/Variant"
+      },
+      "minItems": 1,
+      "title": "Variants",
+      "type": "array"
+    },
+    "inputs": {
+      "items": {
+        "$ref": "#/$defs/InputSpec"
+      },
+      "title": "Inputs",
+      "type": "array"
+    },
+    "outputs": {
+      "items": {
+        "$ref": "#/$defs/OutputSpec"
+      },
+      "title": "Outputs",
+      "type": "array"
+    },
+    "llm": {
+      "$ref": "#/$defs/LlmConfig"
+    },
+    "golden": {
+      "$ref": "#/$defs/Golden"
+    }
+  },
+  "required": [
+    "schema",
+    "id",
+    "version",
+    "task",
+    "license",
+    "variants"
+  ],
+  "title": "Manifest",
+  "type": "object"
+}
