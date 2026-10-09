@@ -51,7 +51,7 @@ void main() {
       await rootBundle.load('assets/images/dog.jpg'),
     );
     final watch = Stopwatch()..start();
-    final image = decodeRgbImage(photo);
+    final image = await ModelPort.imageDecoder!(photo);
     final decodeMs = watch.elapsedMilliseconds;
     watch.reset();
     final tensor = preprocessImage(image, input);
