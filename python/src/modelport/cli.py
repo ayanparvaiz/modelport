@@ -233,6 +233,56 @@ def verify(
         raise typer.Exit(code=1)
 
 
+@app.command()
+def quantize(
+    bundle: Annotated[Path, typer.Argument(help="Bundle folder with an onnx fp32 variant.")],
+    fp16: Annotated[
+        bool, typer.Option("--fp16", help="Add an fp16 variant (about half size).")
+    ] = False,
+    int8: Annotated[
+        bool, typer.Option("--int8", help="Add an int8 variant of MatMul and Gemm weights.")
+    ] = False,
+    allow_top1_change: Annotated[
+        bool, typer.Option(help="Keep a variant even if it changes the golden top-1 class.")
+    ] = False,
+) -> None:
+    """Add smaller ONNX variants and record how far they drift from the original."""
+    from .quantize import Kind, quantize_bundle
+
+    kinds: list[Kind] = []
+    if fp16:
+        kinds.append("fp16")
+    if int8:
+        kinds.append("int8")
+    if not kinds:
+        err_console.print("Choose at least one of --fp16 or --int8.")
+        raise typer.Exit(code=2)
+    try:
+        with console.status(f"Quantizing {bundle}"):
+            results = quantize_bundle(bundle, kinds, allow_top1_change=allow_top1_change)
+    except ModelPortError as error:
+        err_console.print(f"[red]Error:[/red] {error}", highlight=False)
+        raise typer.Exit(code=1) from error
+
+    table = Table(show_edge=False)
+    for column in ("variant", "size", "of fp32", "max |diff|", "tolerance", "top-1"):
+        table.add_column(column)
+    for result in results:
+        variant = result.variant
+        top1 = {None: "", True: "same", False: "[red]different[/]"}[result.top1_match]
+        tolerance = variant.tolerance.atol if variant.tolerance else ""
+        table.add_row(
+            variant.id,
+            _format_size(variant.file.size),
+            f"{result.size_ratio:.0%}",
+            f"{result.max_abs_diff:.2e}",
+            str(tolerance),
+            top1,
+        )
+    console.print(table)
+    console.print(f"\nNext: modelport verify {bundle}", highlight=False)
+
+
 @app.command("inspect")
 def inspect_command(
     path: Annotated[Path, typer.Argument(help="A .onnx, .pte, or .gguf model file.")],
