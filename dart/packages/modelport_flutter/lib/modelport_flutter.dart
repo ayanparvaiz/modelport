@@ -10,6 +10,7 @@
 library;
 
 import 'dart:io';
+import 'dart:ui' as ui;
 
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +33,7 @@ abstract final class ModelPortFlutter {
     Directory? cacheDir,
     AssetBundle? assets,
     http.Client? client,
+    bool nativeImageDecoding = true,
   }) async {
     final root =
         cacheDir ??
@@ -51,6 +53,9 @@ abstract final class ModelPortFlutter {
       adapters: adapters,
       deviceRamMb: await deviceRamMb(),
     );
+    ModelPort.imageDecoder = nativeImageDecoding
+        ? decodeImageWithFlutter
+        : null;
   }
 
   /// Total device memory in MB, or null if it cannot be read.
@@ -66,5 +71,36 @@ abstract final class ModelPortFlutter {
       // Unknown platforms and test hosts without the plugin: no RAM limit.
     }
     return null;
+  }
+}
+
+/// Decodes image bytes with the Flutter engine's native codecs.
+///
+/// Much faster than the pure Dart decoder, and like Pillow it applies the
+/// EXIF orientation. JPEG pixels can differ by a level or two from other
+/// decoders; PNG pixels are identical.
+Future<RgbImage> decodeImageWithFlutter(Uint8List bytes) async {
+  final codec = await ui.instantiateImageCodec(bytes);
+  try {
+    final frame = await codec.getNextFrame();
+    final image = frame.image;
+    try {
+      final data = await image.toByteData(
+        format: ui.ImageByteFormat.rawStraightRgba,
+      );
+      if (data == null) throw ModelPortException('the image could not be read');
+      final rgba = Uint8List.sublistView(data);
+      final rgb = Uint8List(image.width * image.height * 3);
+      for (var i = 0, j = 0; i < rgb.length; i += 3, j += 4) {
+        rgb[i] = rgba[j];
+        rgb[i + 1] = rgba[j + 1];
+        rgb[i + 2] = rgba[j + 2];
+      }
+      return RgbImage(image.width, image.height, rgb);
+    } finally {
+      image.dispose();
+    }
+  } finally {
+    codec.dispose();
   }
 }
