@@ -56,3 +56,22 @@ Protidin er choto note. Shurute "aj ki korbo", sheshe "ki holo, kothay atkalam".
 **Porer kaj**
 - Phase 3: Dart core package
 
+---
+
+## 2026-10-10 · Day 2
+
+**Ki holo**
+- Phase 3 shesh: Dart core e manifest, Tensor, preprocessing, download/cache, adapter contract, `ImageClassifier`, `TextGenerator`, phone e golden check. 99 test.
+- Dart ar Python er preprocessing 12 ta fixture e **byte-for-byte ek**.
+- `modelport_flutter`: cache folder, asset bundle, RAM, native image decoder.
+- **Phase 4 First Light:** `modelport_onnx` adapter diye OPPO phone e MobileNetV3 chole, golden check pass, chobi te Samoyed.
+- Phone e classify 954 ms theke 584 ms, native decoder ar isolate diye.
+
+**Shikkha**
+- Flutter SDK `meta` package pin kore. Core package er constraint beshi uchu hole Flutter app e install i hoy na.
+- Integration test debug mode e chole, tai somoy mapte `flutter drive --profile` lage.
+- Flutter er native decoder EXIF orientation nijei thik kore, Pillow er moto.
+
+**Porer kaj**
+- Phase 5: `modelport_executorch` adapter (Python ongsho hoye geche)
+
