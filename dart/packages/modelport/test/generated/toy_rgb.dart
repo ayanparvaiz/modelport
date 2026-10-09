@@ -9,7 +9,7 @@ import 'package:modelport/modelport.dart';
 class ToyRgbModel {
   ToyRgbModel._(this.model);
 
-  /// Shape of input `pixel_values`: float32 [1, 3, 4, 4].
+  /// Shape of input `pixel_values`: float32 `[1, 3, 4, 4]`.
   static const pixelValuesShape = <int>[1, 3, 4, 4];
 
   /// Downloads (if needed), verifies, and opens the model.
@@ -30,7 +30,7 @@ class ToyRgbModel {
 
   /// Runs the model.
   ///
-  /// * `pixel_values`: float32 [1, 3, 4, 4]
+  /// * `pixel_values`: float32 `[1, 3, 4, 4]`
   Future<ToyRgbOutputs> run({required Tensor pixelValues}) async {
     final outputs = await model.run({'pixel_values': pixelValues});
     return ToyRgbOutputs(logits: outputs['logits']!);
@@ -43,6 +43,6 @@ class ToyRgbModel {
 class ToyRgbOutputs {
   const ToyRgbOutputs({required this.logits});
 
-  /// `logits`: float32 [1, 3].
+  /// `logits`: float32 `[1, 3]`.
   final Tensor logits;
 }

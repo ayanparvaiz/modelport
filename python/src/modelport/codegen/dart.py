@@ -111,7 +111,8 @@ def file_name(model_id: str) -> str:
 
 
 def _doc(spec: TensorSpec) -> str:
-    return f"`{spec.name}`: {spec.dtype.value} {spec.shape}"
+    # Backticks keep dartdoc from reading the shape as a reference.
+    return f"`{spec.name}`: {spec.dtype.value} `{spec.shape}`"
 
 
 def _unique(names: list[str], what: str) -> None:
