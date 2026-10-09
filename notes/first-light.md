@@ -53,3 +53,18 @@ Debug mode e (integration test default) decode 2252 ms, preprocess 607 ms, run 1
 Native decoder er JPEG pixel samanyo alada, tai Samoyed er score 0.77 theke 0.76. Top-1 ekoi. PNG e pixel hubohu ek (test ache).
 
 Aro druto korar upay (pore): decode er somoy i choto kore pora (`targetWidth`), kintu tate resize er niyom bodlay, tai eta optional "fast mode" hishebe bhabte hobe.
+
+## ExecuTorch adapter (Phase 5)
+
+| | OPPO CPH1937 | macOS |
+|---|---|---|
+| Golden check | PASS, max diff 3.72e-5 | PASS, 3.34e-5 |
+| Model run | **17 ms** (ONNX: 77 ms) | 2 ms |
+| Mot classify | 464 ms | 81 ms |
+| Result | Samoyed (0.76) | Samoyed (0.76) |
+
+**Shikkha:**
+- Ei model e phone e ExecuTorch ONNX Runtime er cheye prai 4.5 gun druto. App size o kom (spike e 7.6 MB vs 28.7 MB).
+- macOS e Xcode 27 deployment target 12 er niche nay. Example app er target 14.0 rakhte hobe.
+- Prothom macOS build bhul target e hole `executorch_dart` er CMake cache 11.0 e atke thake. Thik korte `dart/.dart_tool/hooks_runner/shared/executorch_dart/build/` er cache folder muchte hoy. Docs er troubleshooting e jabe.
+
