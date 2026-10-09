@@ -1,0 +1,37 @@
+name: dart
+
+on:
+  push:
+    branches: [main]
+    paths: ["dart/**", "spec/**", ".github/workflows/dart.yml"]
+  pull_request:
+    paths: ["dart/**", "spec/**", ".github/workflows/dart.yml"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dart-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  core:
+    name: format, analyze, test (modelport)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dart
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - name: Install
+        run: dart pub get
+      - name: Format
+        run: dart format --output=none --set-exit-if-changed packages/modelport
+      - name: Analyze
+        run: dart analyze --fatal-infos packages/modelport
+      - name: Test
+        working-directory: dart/packages/modelport
+        run: dart test
