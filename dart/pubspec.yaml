@@ -9,6 +9,7 @@ workspace:
   - packages/modelport_flutter
   - packages/modelport_onnx
   - packages/modelport_onnx/example
+  - packages/modelport_executorch
 
 dev_dependencies:
   lints: ^6.0.0

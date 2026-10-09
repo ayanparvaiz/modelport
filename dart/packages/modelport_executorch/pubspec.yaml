@@ -1,0 +1,29 @@
+name: modelport_executorch
+description: >-
+  PyTorch ExecuTorch adapter for ModelPort. Runs executorch (.pte) variants
+  of modelport.json bundles, delegated to XNNPACK.
+version: 0.1.0-dev.1
+repository: https://github.com/ayanparvaiz/modelport
+issue_tracker: https://github.com/ayanparvaiz/modelport/issues
+topics:
+  - ai
+  - pytorch
+  - executorch
+  - on-device
+
+environment:
+  sdk: ^3.8.0
+  flutter: ">=3.38.0"
+
+resolution: workspace
+
+dependencies:
+  executorch_flutter: ^0.8.0
+  flutter:
+    sdk: flutter
+  modelport: ^0.1.0-dev.1
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
