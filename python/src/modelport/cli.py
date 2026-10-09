@@ -316,20 +316,37 @@ def pack(
 @app.command()
 def publish(
     bundle: Annotated[Path, typer.Argument(help="Bundle folder that contains modelport.json.")],
-    hf: Annotated[str, typer.Option("--hf", help="Hugging Face repo id, like org/name.")],
-    private: Annotated[bool, typer.Option(help="Create the repo as private.")] = False,
+    hf: Annotated[
+        str | None, typer.Option("--hf", help="Hugging Face repo id, like org/name.")
+    ] = None,
+    github: Annotated[
+        str | None,
+        typer.Option("--github", help="GitHub repo, like owner/name. Uploads release assets."),
+    ] = None,
+    tag: Annotated[str, typer.Option(help="Release tag for --github.")] = "models",
+    private: Annotated[bool, typer.Option(help="Create the Hugging Face repo as private.")] = False,
 ) -> None:
-    """Upload a bundle to the Hugging Face Hub. Log in first with `hf auth login`."""
-    from .publish import publish_bundle
+    """Upload a bundle to the Hugging Face Hub or to a GitHub release.
 
+    For Hugging Face, log in first with `hf auth login`. For GitHub, log in with `gh auth login`.
+    """
+    from .publish import publish_bundle, publish_to_github
+
+    if (hf is None) == (github is None):
+        err_console.print("Choose exactly one of --hf or --github.")
+        raise typer.Exit(code=2)
     try:
-        with console.status(f"Uploading {bundle} to {hf}"):
-            result = publish_bundle(bundle, hf, private=private)
+        with console.status(f"Uploading {bundle}"):
+            if github is not None:
+                result = publish_to_github(bundle, github, tag)
+            else:
+                assert hf is not None
+                result = publish_bundle(bundle, hf, private=private)
     except ModelPortError as error:
         err_console.print(f"[red]Error:[/red] {error}", highlight=False)
         raise typer.Exit(code=1) from error
     console.print(f"[green]✓[/green] Uploaded {len(result.files)} files to {result.url}")
-    console.print(f"Load it in Flutter with: {result.hf_uri}", highlight=False)
+    console.print(f"Load it in Flutter with: {result.location}", highlight=False)
 
 
 @app.command("import-gguf")

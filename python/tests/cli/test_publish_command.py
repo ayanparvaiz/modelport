@@ -25,6 +25,7 @@ def test_publish_prints_hf_uri(tiny_source, tmp_path, monkeypatch):
     assert "hf://someone/tiny" in result.output
 
 
-def test_publish_needs_repo_option(tmp_path):
-    result = runner.invoke(app, ["publish", str(tmp_path)])
-    assert result.exit_code == 2
+def test_publish_needs_exactly_one_target(tmp_path):
+    assert runner.invoke(app, ["publish", str(tmp_path)]).exit_code == 2
+    both = ["publish", str(tmp_path), "--hf", "a/b", "--github", "a/b"]
+    assert runner.invoke(app, both).exit_code == 2
