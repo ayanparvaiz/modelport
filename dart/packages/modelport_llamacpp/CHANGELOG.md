@@ -1,3 +1,7 @@
+## 0.1.1
+
+* Docs: the Python CLI installs with `pip install modelport-cli`.
+
 ## 0.1.0
 
 First release.

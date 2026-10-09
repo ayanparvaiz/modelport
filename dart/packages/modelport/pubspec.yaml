@@ -2,7 +2,7 @@ name: modelport
 description: >-
   Run AI models in Dart and Flutter apps from a modelport.json manifest:
   download, verify, preprocess, run, and postprocess with one API.
-version: 0.1.0
+version: 0.1.1
 homepage: https://ayanparvaiz.github.io/modelport/
 repository: https://github.com/ayanparvaiz/modelport/tree/main/dart/packages/modelport
 documentation: https://ayanparvaiz.github.io/modelport/
