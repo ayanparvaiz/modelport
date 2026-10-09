@@ -1,0 +1,57 @@
+{
+  "schema": "modelport/0.1",
+  "id": "yolox_nano",
+  "version": "1.0.0",
+  "task": "object-detection",
+  "license": "Apache-2.0",
+  "name": "YOLOX-Nano",
+  "description": "Draft example. COCO detector with decoded boxes. The detection layout is finalized in Phase 7.",
+  "source": "github:Megvii-BaseDetection/YOLOX",
+  "variants": [
+    {
+      "id": "onnx-fp32",
+      "runtime": "onnx",
+      "precision": "fp32",
+      "file": {
+        "path": "onnx-fp32/model.onnx",
+        "size": 3640000,
+        "sha256": "2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c"
+      },
+      "min_ram_mb": 256
+    }
+  ],
+  "inputs": [
+    {
+      "name": "images",
+      "dtype": "float32",
+      "shape": [1, 3, 416, 416],
+      "layout": "NCHW",
+      "preprocess": {
+        "type": "image",
+        "resize": { "size": [416, 416], "method": "bilinear", "antialias": false },
+        "color": "BGR",
+        "scale": 1.0
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "output",
+      "dtype": "float32",
+      "shape": [1, 3549, 85],
+      "postprocess": {
+        "type": "detection",
+        "box_format": "cxcywh",
+        "has_objectness": true,
+        "score_threshold": 0.3,
+        "iou_threshold": 0.45,
+        "max_detections": 100,
+        "labels": {
+          "path": "coco_labels.txt",
+          "size": 620,
+          "sha256": "3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d"
+        }
+      }
+    }
+  ]
+}
