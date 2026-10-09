@@ -5,7 +5,7 @@ This page turns a PyTorch model into a bundle that any Flutter app can load.
 ## Install
 
 ```bash
-pip install "modelport[onnx,executorch,torchvision]"
+pip install "modelport-cli[onnx,executorch,torchvision]"
 modelport doctor
 ```
 

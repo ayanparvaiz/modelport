@@ -1,7 +1,7 @@
 # Publishes the modelport CLI to PyPI when a tag like py-v0.1.0 is pushed.
 #
 # One-time setup on pypi.org (Account settings > Publishing > Add a pending publisher):
-#   project: modelport, owner: ayanparvaiz, repository: modelport,
+#   project: modelport-cli, owner: ayanparvaiz, repository: modelport,
 #   workflow: release-python.yml, environment: pypi
 name: release-python
 

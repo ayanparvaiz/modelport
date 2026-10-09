@@ -66,7 +66,7 @@ print(await model.checkGolden());
 Ready models are in the [model zoo](https://ayanparvaiz.github.io/modelport/zoo/): MobileNetV3, DeiT Tiny, YOLOS Tiny, SmolLM2 135M, and Qwen2.5 0.5B. Make your own bundle from a PyTorch, torchvision, Hugging Face, or GGUF model with the `modelport` Python CLI:
 
 ```bash
-pip install "modelport[onnx,executorch,torchvision]"
+pip install "modelport-cli[onnx,executorch,torchvision]"
 modelport export torchvision:mobilenet_v3_small --target onnx,executorch
 modelport verify dist/mobilenet_v3_small
 ```

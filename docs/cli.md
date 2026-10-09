@@ -1,7 +1,9 @@
 # CLI reference
 
+The PyPI package is `modelport-cli`. It installs the `modelport` command.
+
 ```bash
-pip install "modelport[onnx,executorch,torchvision,hf,gguf]"
+pip install "modelport-cli[onnx,executorch,torchvision,hf,gguf]"
 ```
 
 | Extra | Adds | Needed for |

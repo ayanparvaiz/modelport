@@ -74,7 +74,7 @@ Object detection (`ObjectDetector`) and chat with local language models (`TextGe
 ### Python
 
 ```bash
-pip install "modelport[onnx,executorch,torchvision]"
+pip install "modelport-cli[onnx,executorch,torchvision]"
 modelport export torchvision:mobilenet_v3_small --target onnx,executorch
 modelport quantize dist/mobilenet_v3_small --fp16 --int8
 modelport verify dist/mobilenet_v3_small

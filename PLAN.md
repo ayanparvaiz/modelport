@@ -49,7 +49,7 @@
 | Naam | **ModelPort** (proposed, Phase 0 te final) |
 | Ek line e | PyTorch, Hugging Face ar GGUF model ke Flutter app e anar shobcheye shohoj rasta |
 | Kader jonno | Flutter developer jara app e AI chay kintu ML jane na. ML developer jara nijer model app e dekhte chay. |
-| Python part | `pip install modelport`. CLI diye export, verify, pack, publish, gen-dart. |
+| Python part | `pip install modelport-cli` (PyPI te `modelport` naam `model-port` er khub kache bole nite pari nai). CLI diye export, verify, pack, publish, gen-dart. |
 | Flutter part | `flutter pub add modelport modelport_onnx`. Ek API te sob dhoroner model. |
 | License | Apache-2.0. Free, open source, company o use korte parbe. |
 | Prothom target | v0.1.0, part-time kaj kore prai 14 shoptaho |

@@ -29,7 +29,7 @@ Publish er 10–20 minute por pub.dev score ashbe. Core package local e 160/160 
 Ekbar setup (pypi.org e login kore):
 
 1. Account settings → Publishing → **Add a new pending publisher**
-2. PyPI project name: `modelport`
+2. PyPI project name: `modelport-cli` (`modelport` is too close to the existing `model-port`)
 3. Owner: `ayanparvaiz`, Repository: `modelport`
 4. Workflow name: `release-python.yml`, Environment name: `pypi`
 

@@ -38,7 +38,7 @@ Without it, loading a model fails with an error that names this setting.
 ## Any GGUF model
 
 ```bash
-pip install "modelport[hf]"
+pip install "modelport-cli[hf]"
 modelport import-gguf Qwen/Qwen2.5-0.5B-Instruct-GGUF -q q4_k_m,q8_0
 ```
 

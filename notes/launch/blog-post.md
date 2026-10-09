@@ -7,7 +7,7 @@ I built [ModelPort](https://github.com/ayanparvaiz/modelport) to take that work 
 ## Three commands in Python
 
 ```bash
-pip install "modelport[onnx,executorch,torchvision]"
+pip install "modelport-cli[onnx,executorch,torchvision]"
 modelport export torchvision:mobilenet_v3_small --target onnx,executorch
 modelport verify dist/mobilenet_v3_small
 ```
