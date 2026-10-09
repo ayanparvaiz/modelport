@@ -14,9 +14,11 @@ from . import __version__
 
 # extra name -> packages it installs, in the order shown to users
 EXTRAS: dict[str, tuple[str, ...]] = {
-    "onnx": ("onnx", "onnxruntime"),
+    "onnx": ("onnx", "onnxruntime", "onnxscript", "torch"),
     "executorch": ("executorch", "torch"),
     "gguf": ("gguf",),
+    "torchvision": ("torchvision", "torch"),
+    "hf": ("transformers", "huggingface-hub", "torch"),
 }
 
 LOW_DISK_BYTES = 5 * 1000**3
