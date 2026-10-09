@@ -283,6 +283,30 @@ def quantize(
     console.print(f"\nNext: modelport verify {bundle}", highlight=False)
 
 
+@app.command()
+def pack(
+    bundle: Annotated[Path, typer.Argument(help="Bundle folder that contains modelport.json.")],
+) -> None:
+    """Refresh file sizes and hashes after manual edits, and list unlisted files."""
+    from .pack import pack_bundle
+
+    try:
+        result = pack_bundle(bundle)
+    except ModelPortError as error:
+        err_console.print(f"[red]Error:[/red] {error}", highlight=False)
+        raise typer.Exit(code=1) from error
+    for path in result.changed:
+        console.print(f"updated hash: {path}", highlight=False)
+    for path in result.stray:
+        console.print(
+            f"[yellow]![/] not in manifest, will not be published: {path}", highlight=False
+        )
+    console.print(
+        f"[green]✓[/green] {result.manifest.id} {result.manifest.version}, "
+        f"{_format_size(result.total_bytes)} in {len(result.manifest.files())} files"
+    )
+
+
 @app.command("inspect")
 def inspect_command(
     path: Annotated[Path, typer.Argument(help="A .onnx, .pte, or .gguf model file.")],
