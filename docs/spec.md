@@ -86,6 +86,7 @@ Readers pick the first variant whose runtime has a registered adapter, that the 
 
 Steps always run in this order:
 
+0. **Decode** the image, apply its EXIF orientation, and convert it to 8-bit RGB.
 1. **Resize.** Either `shorter_side` (keep the aspect ratio) or `size` as `[height, width]`. `method` is `bilinear`, `nearest`, or `bicubic`. `antialias` says whether to low-pass filter when shrinking.
 2. **Center crop** to `center_crop` as `[height, width]`, if set.
 3. **Channel order** from `color`: `RGB` or `BGR`.
@@ -93,7 +94,24 @@ Steps always run in this order:
 5. **Normalize** each channel: `(value - mean) / std`.
 6. **Arrange** in the input's `layout`.
 
-The resize method and antialias setting are explicit because image libraries in Python and Dart do not resize the same way by default. Both sides must implement the same algorithm.
+The resize method and antialias setting are explicit because image libraries in Python and Dart do not resize the same way by default. Both sides must implement the same algorithm. The Python reference implementation is `modelport.preprocess`.
+
+#### Exact resize rules
+
+| Setting | Algorithm |
+|---|---|
+| `shorter_side: N` | The shorter side becomes `N`. The longer side becomes `floor(N × long / short)`. This matches torchvision. |
+| `bilinear`, `antialias: true` | PIL-compatible resampling: a separable triangle filter whose support grows with the shrink factor. Each pass rounds to 0–255 integers. This is what torchvision does for PIL images. |
+| `bicubic`, `antialias: true` | Same as above with PIL's bicubic kernel (`a = -0.5`). |
+| `bilinear`, `antialias: false` | Plain bilinear with half-pixel centers (`align_corners = false`), computed in floating point without rounding. Matches OpenCV `INTER_LINEAR` and PyTorch `interpolate`. |
+| `nearest`, `antialias: false` | PIL-compatible nearest neighbour: output pixel `x` reads source pixel `floor((x + 0.5) × in / out)`. |
+
+`bicubic` without antialias and `nearest` with antialias are not allowed in spec 0.1.
+
+#### Exact crop rules
+
+- The top offset is `round_half_to_even((H - crop_height) / 2)`, and the left offset is the same for widths. This matches torchvision, which uses Python's `round`.
+- If the image is smaller than the crop, it is first padded with zeros: `floor(d / 2)` before and `ceil(d / 2)` after, where `d` is the missing size.
 
 ### Classification postprocessing
 

@@ -91,3 +91,14 @@ def test_exact_resize_sets_output_size():
 def test_std_must_be_positive():
     with pytest.raises(ValidationError):
         ImagePreprocess.model_validate({"resize": {"size": [1, 1]}, "std": [1, 0, 1]})
+
+
+def test_bicubic_needs_antialias():
+    with pytest.raises(ValidationError, match="bicubic"):
+        ResizeSpec(size=(224, 224), method="bicubic", antialias=False)
+    assert ResizeSpec(size=(224, 224), method="bicubic", antialias=True).antialias
+
+
+def test_nearest_cannot_antialias():
+    with pytest.raises(ValidationError, match="nearest"):
+        ResizeSpec(size=(224, 224), method="nearest", antialias=True)

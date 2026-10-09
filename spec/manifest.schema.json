@@ -504,7 +504,7 @@
         },
         "antialias": {
           "default": false,
-          "description": "Whether to low-pass filter when shrinking. Python and Dart must agree.",
+          "description": "true: PIL-compatible resampling that filters when shrinking (bilinear or bicubic). false: plain half-pixel bilinear in floating point, or nearest.",
           "title": "Antialias",
           "type": "boolean"
         }

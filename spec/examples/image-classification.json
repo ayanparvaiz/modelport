@@ -40,7 +40,7 @@
       "layout": "NCHW",
       "preprocess": {
         "type": "image",
-        "resize": { "shorter_side": 256, "method": "bilinear", "antialias": false },
+        "resize": { "shorter_side": 256, "method": "bilinear", "antialias": true },
         "center_crop": [224, 224],
         "color": "RGB",
         "scale": 0.00392156862745098,

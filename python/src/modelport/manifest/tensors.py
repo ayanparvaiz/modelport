@@ -61,7 +61,10 @@ class ResizeSpec(StrictModel):
     method: Literal["bilinear", "nearest", "bicubic"] = "bilinear"
     antialias: bool = Field(
         default=False,
-        description="Whether to low-pass filter when shrinking. Python and Dart must agree.",
+        description=(
+            "true: PIL-compatible resampling that filters when shrinking (bilinear or bicubic). "
+            "false: plain half-pixel bilinear in floating point, or nearest."
+        ),
     )
 
     @field_validator("size")
@@ -75,6 +78,10 @@ class ResizeSpec(StrictModel):
     def _check_exactly_one(self) -> ResizeSpec:
         if (self.shorter_side is None) == (self.size is None):
             raise ValueError("set exactly one of 'shorter_side' or 'size'")
+        if self.method == "bicubic" and not self.antialias:
+            raise ValueError("bicubic resize needs antialias: true in spec 0.1")
+        if self.method == "nearest" and self.antialias:
+            raise ValueError("nearest resize cannot use antialias")
         return self
 
 
