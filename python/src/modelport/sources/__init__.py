@@ -67,6 +67,10 @@ def load_source(spec: str, *, license: str | None = None) -> SourceModel:
         from .hf import load_hf
 
         model = load_hf(rest, license=license)
+    elif kind == "file":
+        from .file import load_file
+
+        model = load_file(rest)
     else:
         raise SourceError(f"unknown source type '{kind}'. Use torchvision:, hf:, or file:")
     if license is not None:
