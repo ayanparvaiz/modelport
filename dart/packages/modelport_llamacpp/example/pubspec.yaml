@@ -1,0 +1,28 @@
+name: modelport_llamacpp_example
+description: Chats with a GGUF model through ModelPort's llama.cpp adapter.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.0
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  modelport_flutter: ^0.1.0-dev.1
+  modelport_llamacpp: ^0.1.0-dev.1
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    # Only the manifest ships with the app. The model downloads on first use.
+    - assets/manifests/smollm2-135m-instruct/

@@ -1,0 +1,35 @@
+{
+  "schema": "modelport/0.1",
+  "id": "smollm2-135m-instruct",
+  "version": "1.0.0",
+  "task": "text-generation",
+  "license": "apache-2.0",
+  "name": "SmolLM2-135M-Instruct-GGUF",
+  "description": "llama model from unsloth/SmolLM2-135M-Instruct-GGUF.",
+  "source": "hf:unsloth/SmolLM2-135M-Instruct-GGUF@9e6855bc4be7",
+  "variants": [
+    {
+      "id": "gguf-q4_k_m",
+      "runtime": "llamacpp",
+      "precision": "q4_k_m",
+      "file": {
+        "url": "https://huggingface.co/unsloth/SmolLM2-135M-Instruct-GGUF/resolve/9e6855bc4be717fca1ef21360a1db4b29d5c559a/SmolLM2-135M-Instruct-Q4_K_M.gguf",
+        "size": 105454144,
+        "sha256": "ed5fa30c487b282ec156c29062f1222e5c20875a944ac98289dbd242e947f747"
+      },
+      "extra_files": [],
+      "min_ram_mb": 512
+    }
+  ],
+  "inputs": [],
+  "outputs": [],
+  "llm": {
+    "context_length": 4096,
+    "chat_template": "from_gguf",
+    "defaults": {
+      "temperature": 0.7,
+      "top_p": 0.9,
+      "max_tokens": 512
+    }
+  }
+}
