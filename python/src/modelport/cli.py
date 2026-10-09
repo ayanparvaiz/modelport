@@ -146,7 +146,9 @@ def export(
     ],
     target: Annotated[
         list[str],
-        typer.Option("--target", "-t", help="Format to export. Repeat or comma-separate."),
+        typer.Option(
+            "--target", "-t", help="Format to export: onnx, executorch. Repeat or comma-separate."
+        ),
     ] = ["onnx"],  # noqa: B006 - Typer reads list defaults
     out: Annotated[Path, typer.Option("--out", "-o", help="Folder for bundles.")] = Path("dist"),
     license: Annotated[
@@ -205,18 +207,18 @@ def verify(
         raise typer.Exit(code=1) from error
 
     table = Table(show_edge=False)
-    for column in ("variant", "runtime", "output", "max |diff|", "cosine", "top-1", "result"):
-        table.add_column(column)
+    table.add_column("variant", no_wrap=True)
+    for column in ("output", "max diff", "cosine", "top-1", "result"):
+        table.add_column(column, no_wrap=True)
     for result in results:
         if result.skipped:
-            table.add_row(result.variant_id, result.runtime, "", "", "", "", "[yellow]skipped[/]")
+            table.add_row(result.variant_id, "", "", "", "", "[yellow]skipped[/]")
             continue
         for check in result.outputs:
             ok = check.within_tolerance and check.top1_match is not False
             top1 = {None: "", True: "same", False: "[red]different[/]"}[check.top1_match]
             table.add_row(
                 result.variant_id,
-                result.runtime,
                 check.name,
                 f"{check.max_abs_diff:.2e}",
                 f"{check.cosine:.6f}",
