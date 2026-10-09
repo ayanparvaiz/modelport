@@ -376,6 +376,19 @@ class Manifest {
       }
     }
 
+    final outputNames = {for (final o in outputs) o.name};
+    for (final output in outputs) {
+      final post = output.postprocess;
+      if (post is! DetectionPostprocess) continue;
+      final boxes = post.boxesOutput;
+      if (boxes != null &&
+          (!outputNames.contains(boxes) || boxes == output.name)) {
+        throw ManifestException(
+          'output "${output.name}" boxes_output "$boxes" must name another output',
+        );
+      }
+    }
+
     final goldenData = golden;
     if (goldenData != null) {
       final inputNames = {for (final i in inputs) i.name};
