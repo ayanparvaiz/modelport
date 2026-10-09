@@ -91,7 +91,8 @@ def read_tensor(bundle: Bundle, ref: FileRef, spec: TensorSpec) -> np.ndarray:
     if ref.path is None:
         raise ModelPortError("golden files must be inside the bundle")
     data = bundle.path(ref.path).read_bytes()
-    array = np.frombuffer(data, dtype=NUMPY_DTYPES[spec.dtype])
+    # Copy so the array is writable; torch warns when wrapping read-only buffers.
+    array = np.frombuffer(data, dtype=NUMPY_DTYPES[spec.dtype]).copy()
     if spec.shape.count(-1) <= 1:
         array = array.reshape(spec.shape)
     return array
