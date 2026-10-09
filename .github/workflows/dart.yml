@@ -33,6 +33,13 @@ jobs:
         run: dart format --output=none --set-exit-if-changed packages
       - name: Analyze modelport
         run: dart analyze --fatal-infos packages/modelport
+      - name: Create the example's asset folders (filled by tool/copy_bundle.sh locally)
+        run: |
+          base=packages/modelport_onnx/example/assets
+          mkdir -p "$base/images"
+          for dir in "" onnx-fp32 onnx-fp16 onnx-int8 golden; do
+            mkdir -p "$base/models/mobilenet_v3_small/$dir"
+          done
       - name: Analyze Flutter packages and example
         run: |
           for dir in packages/modelport_flutter packages/modelport_onnx packages/modelport_onnx/example; do
