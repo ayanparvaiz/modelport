@@ -8,6 +8,7 @@ from typing import Literal
 from pydantic import Field, field_validator, model_validator
 
 from .base import StrictModel
+from .postprocess import Postprocess
 
 TensorLayout = Literal["NCHW", "NHWC"]
 
@@ -142,3 +143,9 @@ class InputSpec(TensorSpec):
                         f"but preprocessing produces {expected}"
                     )
         return self
+
+
+class OutputSpec(TensorSpec):
+    """A model output, with optional rules for turning it into results."""
+
+    postprocess: Postprocess | None = None
