@@ -74,3 +74,21 @@ LLM er uttor (dui jaygay ek): "Flutter is a cross-platform mobile app developmen
 - LLM engine: **llm_llamacpp** thakbe. Android e kaj kore, active, ar workaround adapter er bhitore lukano jay. `llama_cpp_dart` backup.
 - Prothom end-to-end (Phase 4) ONNX diye, plan moto. ExecuTorch Phase 5 e, karon eta druto ar export o kaj kore.
 - iPhone e ekhono test hoy nai. Signing (Apple developer team) setup kore Phase 4 e korbo.
+
+### App size: release APK, sudhu arm64
+
+Mot APK: **82.5 MB**, er moddhe test model (ONNX + PTE) 21 MB. Native library (unzip kora size):
+
+| Engine | Library | Size |
+|---|---|---|
+| Flutter nijei | libflutter + libapp | 14.5 MB |
+| ONNX Runtime | libonnxruntime + JNI | 28.7 MB |
+| ExecuTorch | libexecutorch_ffi + fbjni | 7.6 MB |
+| llama.cpp | libggml-vulkan | **44.1 MB** |
+| llama.cpp | 7 ta CPU variant + libllama + ggml + omp | 16.3 MB |
+
+**Shikkha:**
+
+9. **ExecuTorch sobcheye halka engine** (7.6 MB). ONNX Runtime prai 4 gun boro.
+10. **llama.cpp er Vulkan GPU backend ekai 44 MB.** Je app GPU chay na, tar jonno eta bad dewar upay docs e dite hobe, ba adapter e option rakhte hobe.
+11. Ei karone adapter alada package rakhar design ta thik: user sudhu je engine lagbe setai nibe.
