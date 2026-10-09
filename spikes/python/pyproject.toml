@@ -1,0 +1,20 @@
+[project]
+name = "modelport-spikes"
+version = "0.0.0"
+description = "Throwaway Phase 0 experiments: can each engine run a real model?"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+  "executorch",
+  "torch",
+  "torchvision",
+  "onnx",
+  "onnxscript",
+  "onnxruntime",
+  "pillow",
+  "numpy",
+  "gguf",
+  "huggingface_hub",
+]
+
+[tool.uv]
+package = false

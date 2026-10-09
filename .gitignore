@@ -45,3 +45,6 @@ dist/
 # Local notes and secrets
 .env
 .env.*
+
+# Spike outputs
+spikes/**/out/
