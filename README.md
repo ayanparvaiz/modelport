@@ -3,7 +3,9 @@
 **Run any AI model in your Flutter app.**
 Prepare a model once with Python. Run it on-device in Flutter with one line of Dart.
 
-> **Status: early development.** Nothing is published yet. Follow along or star the repo to get notified when v0.1.0 ships.
+> **Status: 0.1.0.** Tested on a real Android phone and macOS. iOS is not verified yet.
+>
+> 📖 **Docs:** https://ayanparvaiz.github.io/modelport/ · 📱 **Demo APK:** [Releases](https://github.com/ayanparvaiz/modelport/releases) · 🧠 **Ready models:** [zoo](zoo/README.md)
 
 ---
 
@@ -40,29 +42,50 @@ Engine packages such as `flutter_onnxruntime`, `executorch_flutter`, and `llm_ll
 
 ## Usage
 
-The Python CLI works today (install from source until it is on PyPI):
+### Flutter
 
 ```bash
-cd python && uv sync --all-extras
-uv run modelport export torchvision:mobilenet_v3_small --target onnx,executorch
-uv run modelport quantize dist/mobilenet_v3_small --fp16 --int8
-uv run modelport verify dist/mobilenet_v3_small
+flutter pub add modelport_flutter modelport_onnx
+```
+
+```dart
+await ModelPortFlutter.init(adapters: [OnnxAdapter()]);
+
+final classifier = await ImageClassifier.load(
+  'https://github.com/ayanparvaiz/modelport/releases/download/zoo-v1/mobilenet_v3_small.json',
+);
+print((await classifier.classify(jpegBytes)).first); // Samoyed (0.76)
+
+// Prove this phone gives the same answer as Python.
+print(await classifier.model.checkGolden()); // PASS
+```
+
+Object detection (`ObjectDetector`) and chat with local language models (`TextGenerator`, with `modelport_llamacpp`) work the same way.
+
+### Python
+
+```bash
+pip install "modelport[onnx,executorch,torchvision]"
+modelport export torchvision:mobilenet_v3_small --target onnx,executorch
+modelport quantize dist/mobilenet_v3_small --fp16 --int8
+modelport verify dist/mobilenet_v3_small
+modelport publish dist/mobilenet_v3_small --github you/models --tag v1
 ```
 
 See the [CLI README](python/README.md) for every command.
 
-The Flutter side is planned:
+## Tested on a real phone
 
-```dart
-final classifier = await ImageClassifier.load('hf://modelport-dev/mobilenet_v3_small');
-final results = await classifier.classify(imageBytes);
-print(results.first); // golden retriever (0.93)
+OPPO CPH1937 (Android 11, Snapdragon 665, 2019), profile mode:
 
-final llm = await TextGenerator.load('hf://modelport-dev/qwen2.5-0.5b-instruct');
-await for (final piece in llm.chat([ChatMessage.user('What is Flutter?')])) {
-  stdout.write(piece);
-}
-```
+| | Result |
+|---|---|
+| Golden check, every zoo model and variant | Pass (MobileNetV3 fp32 within 3.7e-5 of PyTorch) |
+| MobileNetV3 run, ExecuTorch / ONNX Runtime | 17 ms / 77 ms |
+| Classify a 1546x1213 JPEG end to end | 382 ms |
+| SmolLM2 135M: download, verify, first words | about a minute, then 0.9 s |
+
+More in [Performance](https://ayanparvaiz.github.io/modelport/performance/).
 
 ## Repository layout
 
@@ -71,7 +94,7 @@ await for (final piece in llm.chat([ChatMessage.user('What is Flutter?')])) {
 | `spec/` | The `modelport.json` manifest schema and examples |
 | `python/` | The `modelport` CLI (PyPI) |
 | `dart/packages/` | Dart and Flutter packages (pub.dev) |
-| `apps/demo/` | Demo Flutter app |
+| `dart/apps/demo/` | Demo Flutter app |
 | `zoo/` | Curated, tested model manifests |
 | `docs/` | Documentation site |
 
@@ -82,11 +105,12 @@ The full plan is in [PLAN.md](PLAN.md) (written in Bangla). In short:
 - [x] Manifest spec v0.1 ([docs](docs/spec.md))
 - [x] Engine spikes: ONNX Runtime, ExecuTorch, and llama.cpp all run on Android and macOS and match Python ([notes](notes/spikes.md), in Bangla)
 - [x] Python CLI: export to ONNX and ExecuTorch, quantize, verify, pack, and publish
-- [ ] Dart core with download, cache, and preprocessing
-- [ ] ONNX, ExecuTorch, and llama.cpp adapters
-- [ ] Image classification, object detection, and text generation task APIs
-- [ ] Demo app, model zoo, and docs
-- [ ] v0.1.0 release
+- [x] Dart core with download, cache, and preprocessing
+- [x] ONNX, ExecuTorch, and llama.cpp adapters
+- [x] Image classification, object detection, and text generation task APIs
+- [x] Demo app, model zoo, and docs
+- [ ] v0.1.0 on pub.dev and PyPI
+- [ ] iOS verification
 
 ## Contributing
 
