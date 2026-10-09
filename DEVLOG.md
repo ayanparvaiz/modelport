@@ -87,3 +87,18 @@ Protidin er choto note. Shurute "aj ki korbo", sheshe "ki holo, kothay atkalam".
 - Phase 8: demo app (sob engine ek app e) ar model zoo
 - Hugging Face e publish korte tomar HF login lagbe
 
+---
+
+## 2026-10-10 · Day 2, rat
+
+**Ki holo**
+- Phase 8: demo app (Classify, Detect, Chat, Models), zoo GitHub release `zoo-v1` e 5 ta model. Phone e sob test pass.
+- `modelport publish --github`: Hugging Face chara GitHub release e bundle host.
+- Phase 9: docs site live: https://ayanparvaiz.github.io/modelport/
+- Phase 10: 5 ta package 0.1.0, README `rfid_kit` er dhorone, core pana 160/160, PyPI wheel ready, release workflow, demo APK draft release.
+- Phase 11: launch draft `notes/launch/` e.
+
+**Atkalam**
+- pub.dev publish Claude Code er auto-mode atkeche. [RELEASE.md](RELEASE.md) e tomar command gulo.
+- Test cholar somoy phone use korle (YouTube PIP) ba screen lock thakle test majhpothe thame.
+
