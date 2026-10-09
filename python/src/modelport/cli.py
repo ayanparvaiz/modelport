@@ -415,6 +415,39 @@ def import_gguf(
     )
 
 
+@app.command("gen-dart")
+def gen_dart(
+    manifest_path: Annotated[
+        Path, typer.Argument(help="modelport.json, or a bundle folder that contains one.")
+    ],
+    out: Annotated[Path, typer.Option("--out", "-o", help="Folder for the .dart file.")] = Path(
+        "lib/models"
+    ),
+    location: Annotated[
+        str | None,
+        typer.Option(help="Default location for load(), such as hf://org/name."),
+    ] = None,
+) -> None:
+    """Generate a typed Dart wrapper with named inputs and outputs."""
+    from .codegen.dart import file_name, format_with_dart, generate_dart
+    from .manifest import MANIFEST_FILENAME, Manifest
+
+    path = manifest_path / MANIFEST_FILENAME if manifest_path.is_dir() else manifest_path
+    try:
+        manifest = Manifest.from_file(path)
+        source = generate_dart(manifest, location=location)
+        formatted = format_with_dart(source)
+    except (ModelPortError, ValueError, OSError) as error:
+        err_console.print(f"[red]Error:[/red] {error}", highlight=False)
+        raise typer.Exit(code=1) from error
+    out.mkdir(parents=True, exist_ok=True)
+    target = out / file_name(manifest.id)
+    target.write_text(formatted or source, encoding="utf-8")
+    console.print(f"Wrote {target}", highlight=False)
+    if formatted is None:
+        console.print("Dart is not installed, so the file was not formatted.", highlight=False)
+
+
 @app.command("inspect")
 def inspect_command(
     path: Annotated[Path, typer.Argument(help="A .onnx, .pte, or .gguf model file.")],
