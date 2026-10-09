@@ -12,6 +12,7 @@ export 'src/manifest/tensors.dart';
 export 'src/model_port.dart';
 export 'src/numeric.dart';
 export 'src/postprocess/classification.dart';
+export 'src/postprocess/detection.dart';
 export 'src/preprocess/image_preprocess.dart' show preprocessImage, resizedSize;
 export 'src/preprocess/rgb_image.dart';
 export 'src/runtime/adapter.dart';
