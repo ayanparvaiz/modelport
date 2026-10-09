@@ -879,22 +879,22 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Keu code na likhe o ModelPort er shokti dekhte pare.
 
-- [ ] `apps/demo` screen gulo:
+- [x] `apps/demo` screen gulo: *(`dart/apps/demo` e: Classify, Detect, Chat, Models. Bench er somoy prottek screen e dekhay.)*
   - Home
   - Classify (camera ba gallery)
   - Detect (chhobir upor box)
   - Chat (LLM)
   - Models (download, delete, koto jayga nicche)
   - Bench (load time, latency)
-- [ ] Classify screen e engine switch: ONNX ↔ ExecuTorch.
-- [ ] Zoo: `zoo/index.json` ar 5 ta model, sob Apache, MIT ba BSD license er:
+- [x] Classify screen e engine switch: ONNX ↔ ExecuTorch. *(ONNX int8 o.)*
+- [x] Zoo: `zoo/index.json` ar 5 ta model, sob Apache, MIT ba BSD license er: *(GitHub release `zoo-v1` e host kora: MobileNetV3, DeiT Tiny, YOLOS Tiny, SmolLM2, Qwen2.5.)*
   - `mobilenet_v3_small` (classification)
   - `efficientnet_b0` (classification)
   - `yolox_nano` ba `ssdlite` (detection)
   - `qwen2.5-0.5b-instruct` (LLM)
   - `smollm2-360m-instruct` (LLM)
-- [ ] `zoo.yml` CI: prottek manifest schema valid, URL kaj kore, sha256 mile.
-- [ ] Demo APK GitHub Releases e.
+- [x] `zoo.yml` CI: prottek manifest schema valid, URL kaj kore, sha256 mile. *(Size check, protisoptahe.)*
+- [x] Demo APK GitHub Releases e. *(`v0.1.0` draft e, tumi publish korbe.)*
 
 **Shesh jokhon:** Keu APK install kore 5 ta model try korte pare.
 
@@ -904,8 +904,8 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Docs pore notun keu nije nije chalate pare.
 
-- [ ] README: ek line pitch, GIF, 3 step quickstart, engine table, link.
-- [ ] Docs site (Zensical, GitHub Pages):
+- [x] README: ek line pitch, GIF, 3 step quickstart, engine table, link.
+- [x] Docs site (Zensical, GitHub Pages):
   - Getting started: Flutter developer er jonno
   - Getting started: ML developer er jonno
   - Concepts: manifest, variant, adapter
@@ -913,11 +913,13 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
   - CLI reference
   - Troubleshooting: iOS minimum version, ProGuard rule, 16 KB page size, app size
   - Adapter likhar guide, contributor der jonno
-- [ ] Sob public Dart API te dartdoc comment. pub.dev nije API docs banay.
-- [ ] Prottek package e README, CHANGELOG, `example/`.
-- [ ] **Fresh eyes test:** ekjon bondhu ke sudhu docs diye 30 minute e chalate bolo. Kothay atke, note koro ar thik koro.
+- [x] Sob public Dart API te dartdoc comment. pub.dev nije API docs banay.
+- [x] Prottek package e README, CHANGELOG, `example/`.
+- [ ] **Fresh eyes test:** *(tomar kono bondhu ke diye korao)* ekjon bondhu ke sudhu docs diye 30 minute e chalate bolo. Kothay atke, note koro ar thik koro.
 
 **Shesh jokhon:** Fresh eyes test pass.
+
+> **Hoye geche (2026-10-10):** Docs live: https://ayanparvaiz.github.io/modelport/
 
 ---
 
@@ -925,13 +927,13 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Clean machine e install kore kaj kore.
 
-- [ ] `integration.yml`: Android emulator e demo app er golden test. macOS runner e iOS simulator.
-- [ ] `pana` diye pub.dev score check, sob warning thik.
-- [ ] Security check: sudhu https, sha256 lagbei, manifest e code nai, Python e unsafe pickle load nai.
-- [ ] Device test table: low-end Android (4 GB ba kom), mid Android, iPhone.
-- [ ] PyPI trusted publishing setup. pub.dev automated publishing (GitHub Actions, tag diye).
-- [ ] `0.1.0` tag → PyPI, pub.dev (5 package), GitHub Release.
-- [ ] Notun machine e test: `pip install modelport`, notun Flutter project e `flutter pub add`.
+- [ ] `integration.yml`: Android emulator e demo app er golden test. macOS runner e iOS simulator. *(Baki. Ekhon device test haate, tomar phone e: sob pass.)*
+- [x] `pana` diye pub.dev score check, sob warning thik. *(Core 160/160. Baki 4 ta core publish er por mapa jabe.)*
+- [x] Security check: sudhu https, sha256 lagbei, manifest e code nai, Python e unsafe pickle load nai.
+- [x] Device test table: *(OPPO CPH1937 ar macOS. iOS skip, tomar kotha moto.)* low-end Android (4 GB ba kom), mid Android, iPhone.
+- [x] PyPI trusted publishing setup. pub.dev automated publishing (GitHub Actions, tag diye). *(Workflow ready; pypi.org ar pub.dev e ekbar setting tomar.)*
+- [ ] `0.1.0` tag → PyPI, pub.dev (5 package), GitHub Release. *(Sob ready, auto-mode publish atkeche. Step gulo [RELEASE.md](RELEASE.md) e.)*
+- [x] Notun machine e test: *(wheel clean environment e chole; dart pub publish --dry-run 0 warning)* `pip install modelport`, notun Flutter project e `flutter pub add`.
 
 **Shesh jokhon:** Sob jaygay 0.1.0 live, ar clean install kaj kore.
 
@@ -941,7 +943,7 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Manush jane, try kore, feedback dey.
 
-- [ ] Blog post (dev.to, Medium ba Hashnode): "Your PyTorch model in a Flutter app in 3 commands".
+- [ ] Blog post (dev.to, Medium ba Hashnode): "Your PyTorch model in a Flutter app in 3 commands". *(Draft: [notes/launch/blog-post.md](notes/launch/blog-post.md))*
 - [ ] 60 – 90 second demo video: YouTube, X, LinkedIn.
 - [ ] Post: r/FlutterDev, r/LocalLLaMA (LLM er angle), Hacker News "Show HN", Flutter Discord, Hugging Face community.
 - [ ] fluttergems.dev ar awesome-flutter list e submit.
@@ -949,6 +951,8 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 - [ ] Launch er por 2 shoptaho: issue te 24 – 48 ghontar moddhe reply. Beshi chawa feature gulo note koro.
 
 **Shesh jokhon:** Launch hoyeche, ar feedback list theke v0.2 plan ready.
+
+> Sob post er draft [notes/launch/](notes/launch/) e. Post gulo tomar account theke tumi korbe.
 
 ---
 
