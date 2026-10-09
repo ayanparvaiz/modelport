@@ -1,11 +1,20 @@
 # ModelPort
 
+[![pub package](https://img.shields.io/pub/v/modelport.svg?label=modelport)](https://pub.dev/packages/modelport)
+[![modelport_flutter](https://img.shields.io/pub/v/modelport_flutter.svg?label=modelport_flutter)](https://pub.dev/packages/modelport_flutter)
+[![modelport_onnx](https://img.shields.io/pub/v/modelport_onnx.svg?label=modelport_onnx)](https://pub.dev/packages/modelport_onnx)
+[![modelport_executorch](https://img.shields.io/pub/v/modelport_executorch.svg?label=modelport_executorch)](https://pub.dev/packages/modelport_executorch)
+[![modelport_llamacpp](https://img.shields.io/pub/v/modelport_llamacpp.svg?label=modelport_llamacpp)](https://pub.dev/packages/modelport_llamacpp)
+[![python](https://github.com/ayanparvaiz/modelport/actions/workflows/python.yml/badge.svg)](https://github.com/ayanparvaiz/modelport/actions/workflows/python.yml)
+[![dart](https://github.com/ayanparvaiz/modelport/actions/workflows/dart.yml/badge.svg)](https://github.com/ayanparvaiz/modelport/actions/workflows/dart.yml)
+[![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
+
 **Run any AI model in your Flutter app.**
 Prepare a model once with Python. Run it on-device in Flutter with one line of Dart.
 
 > **Status: 0.1.0.** Tested on a real Android phone and macOS. iOS is not verified yet.
 >
-> 📖 **Docs:** https://ayanparvaiz.github.io/modelport/ · 📱 **Demo APK:** [Releases](https://github.com/ayanparvaiz/modelport/releases) · 🧠 **Ready models:** [zoo](zoo/README.md)
+> 📖 **Docs:** https://ayanparvaiz.github.io/modelport/ · 📱 **Demo APK:** [v0.1.0](https://github.com/ayanparvaiz/modelport/releases/tag/v0.1.0) · 🧠 **Ready models:** [zoo](zoo/README.md)
 
 ---
 
@@ -109,7 +118,8 @@ The full plan is in [PLAN.md](PLAN.md) (written in Bangla). In short:
 - [x] ONNX, ExecuTorch, and llama.cpp adapters
 - [x] Image classification, object detection, and text generation task APIs
 - [x] Demo app, model zoo, and docs
-- [ ] v0.1.0 on pub.dev and PyPI
+- [x] v0.1.0 on pub.dev
+- [ ] v0.1.0 on PyPI
 - [ ] iOS verification
 
 ## Contributing
