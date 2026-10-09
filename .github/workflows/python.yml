@@ -1,0 +1,46 @@
+name: python
+
+on:
+  push:
+    branches: [main]
+    paths: ["python/**", "spec/**", ".github/workflows/python.yml"]
+  pull_request:
+    paths: ["python/**", "spec/**", ".github/workflows/python.yml"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: python-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: lint, types, tests (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10
+        with:
+          enable-cache: true
+      - name: Install
+        run: uv sync --python ${{ matrix.python }} --locked
+      - name: Ruff lint
+        run: uv run ruff check .
+      - name: Ruff format
+        run: uv run ruff format --check .
+      - name: Pyright
+        run: uv run pyright
+      - name: Tests
+        run: uv run pytest
+      - name: Schema is up to date
+        run: |
+          uv run modelport schema -o ../spec
+          git diff --exit-code ../spec/manifest.schema.json
