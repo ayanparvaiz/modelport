@@ -10,6 +10,7 @@ export 'src/manifest/manifest.dart';
 export 'src/manifest/postprocess.dart';
 export 'src/manifest/tensors.dart';
 export 'src/model_port.dart';
+export 'src/numeric.dart';
 export 'src/postprocess/classification.dart';
 export 'src/preprocess/image_preprocess.dart' show preprocessImage, resizedSize;
 export 'src/preprocess/rgb_image.dart';
