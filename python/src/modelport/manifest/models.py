@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from collections import Counter
 from enum import StrEnum
 from pathlib import Path
@@ -210,7 +211,15 @@ class Manifest(StrictModel):
 
     @classmethod
     def from_file(cls, path: str | Path) -> Manifest:
-        return cls.model_validate_json(Path(path).read_text(encoding="utf-8"))
+        """Load and validate a `modelport.json` file.
+
+        Files must state their spec version, so a missing `schema` key is an error here
+        even though code that builds a manifest in Python gets it filled in.
+        """
+        data = json.loads(Path(path).read_text(encoding="utf-8"))
+        if not isinstance(data, dict) or "schema" not in data:
+            raise ValueError(f"{path}: missing 'schema' key, expected \"{SCHEMA_VERSION}\"")
+        return cls.model_validate(data)
 
 
 def _require_unique(label: str, values: list[str]) -> None:
