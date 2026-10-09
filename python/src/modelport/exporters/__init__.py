@@ -45,7 +45,11 @@ def get_exporter(target: str) -> Exporter:
         from .onnx import export_onnx
 
         return export_onnx
-    raise ExportError(f"unknown export target '{target}'. Available: onnx")
+    if target == "executorch":
+        from .executorch import export_executorch
+
+        return export_executorch
+    raise ExportError(f"unknown export target '{target}'. Available: onnx, executorch")
 
 
 __all__ = ["ExportError", "ExportedVariant", "Exporter", "get_exporter", "quiet_output"]
