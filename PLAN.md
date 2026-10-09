@@ -834,10 +834,10 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 - [x] `inspect` e `.pte` support.
 - [x] `verify`: PyTorch vs ExecuTorch Python runtime.
 - [ ] `packages/modelport_executorch`: `ExecuTorchModel.load(path)`, `forward(list)`, input order manifest theke.
-- [ ] Mobilenet bundle e dui variant: onnx ar executorch.
-- [ ] Dui engine er tulona: speed, app size, top-1 same kina. Result docs e table akare.
+- [x] Mobilenet bundle e dui variant: onnx ar executorch.
+- [x] Dui engine er tulona: speed, app size, top-1 same kina. Result docs e table akare. *(Phone e ExecuTorch 17 ms vs ONNX 77 ms, dujonei Samoyed. [notes/first-light.md](notes/first-light.md))*
 
-**Shesh jokhon:** Ekoi app e engine bodlale result same thake.
+**Shesh jokhon:** Ekoi app e engine bodlale result same thake. *(Duto example app e same result. Ek app e switch Phase 8 er demo te.)*
 
 ---
 
