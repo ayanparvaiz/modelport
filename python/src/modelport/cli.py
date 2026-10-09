@@ -136,6 +136,60 @@ def doctor() -> None:
         console.print("\n[green]Everything is installed.[/green]")
 
 
+@app.command()
+def export(
+    source: Annotated[
+        str,
+        typer.Argument(
+            help="Model to export: torchvision:<name>, hf:<repo or folder>, or file:<script.py>."
+        ),
+    ],
+    target: Annotated[
+        list[str],
+        typer.Option("--target", "-t", help="Format to export. Repeat or comma-separate."),
+    ] = ["onnx"],  # noqa: B006 - Typer reads list defaults
+    out: Annotated[Path, typer.Option("--out", "-o", help="Folder for bundles.")] = Path("dist"),
+    license: Annotated[
+        str | None, typer.Option(help="SPDX license of the weights, if the source has none.")
+    ] = None,
+    version: Annotated[str, typer.Option(help="Version of this bundle.")] = "1.0.0",
+    sample_image: Annotated[
+        Path | None,
+        typer.Option(
+            "--sample-image", help="Picture used for golden data. A fixed one by default."
+        ),
+    ] = None,
+    force: Annotated[bool, typer.Option("--force", help="Replace an existing bundle.")] = False,
+) -> None:
+    """Convert a model and write a bundle with modelport.json and golden test data."""
+    from .pipeline import export_bundle
+    from .preprocess import load_image
+    from .sources import load_source
+
+    targets = [t.strip() for item in target for t in item.split(",") if t.strip()]
+    try:
+        with console.status(f"Loading {source}"):
+            model = load_source(source, license=license)
+        image = load_image(sample_image) if sample_image else None
+        with console.status(f"Exporting {model.id} to {', '.join(targets)}"):
+            bundle, manifest = export_bundle(
+                model, out, targets, image=image, version=version, overwrite=force
+            )
+    except ModelPortError as error:
+        err_console.print(f"[red]Error:[/red] {error}", highlight=False)
+        raise typer.Exit(code=1) from error
+
+    table = Table(title=f"Wrote {bundle.root}", title_justify="left", show_edge=False)
+    table.add_column("file")
+    table.add_column("size", justify="right")
+    for ref in manifest.files():
+        if ref.path is not None:
+            table.add_row(ref.path, _format_size(ref.size))
+    table.add_row("modelport.json", _format_size(bundle.manifest_path.stat().st_size))
+    console.print(table)
+    console.print(f"\nNext: modelport verify {bundle.root}", highlight=False)
+
+
 @app.command("inspect")
 def inspect_command(
     path: Annotated[Path, typer.Argument(help="A .onnx, .pte, or .gguf model file.")],
