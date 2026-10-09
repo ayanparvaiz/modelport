@@ -307,6 +307,25 @@ def pack(
     )
 
 
+@app.command()
+def publish(
+    bundle: Annotated[Path, typer.Argument(help="Bundle folder that contains modelport.json.")],
+    hf: Annotated[str, typer.Option("--hf", help="Hugging Face repo id, like org/name.")],
+    private: Annotated[bool, typer.Option(help="Create the repo as private.")] = False,
+) -> None:
+    """Upload a bundle to the Hugging Face Hub. Log in first with `hf auth login`."""
+    from .publish import publish_bundle
+
+    try:
+        with console.status(f"Uploading {bundle} to {hf}"):
+            result = publish_bundle(bundle, hf, private=private)
+    except ModelPortError as error:
+        err_console.print(f"[red]Error:[/red] {error}", highlight=False)
+        raise typer.Exit(code=1) from error
+    console.print(f"[green]✓[/green] Uploaded {len(result.files)} files to {result.url}")
+    console.print(f"Load it in Flutter with: {result.hf_uri}", highlight=False)
+
+
 @app.command("inspect")
 def inspect_command(
     path: Annotated[Path, typer.Argument(help="A .onnx, .pte, or .gguf model file.")],
