@@ -9,3 +9,4 @@ export 'src/manifest/files.dart' show FileRef;
 export 'src/manifest/manifest.dart';
 export 'src/manifest/postprocess.dart';
 export 'src/manifest/tensors.dart';
+export 'src/tensor.dart';
