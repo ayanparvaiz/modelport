@@ -73,7 +73,8 @@ await for (final piece in llm.chat([ChatMessage.user('What is Flutter?')])) {
 
 The full plan is in [PLAN.md](PLAN.md) (written in Bangla). In short:
 
-- [ ] Manifest spec v0.1
+- [x] Manifest spec v0.1 ([docs](docs/spec.md))
+- [x] Engine spikes: ONNX Runtime, ExecuTorch, and llama.cpp all run on Android and macOS and match Python ([notes](notes/spikes.md), in Bangla)
 - [ ] Python CLI with ONNX export and verification
 - [ ] Dart core with download, cache, and preprocessing
 - [ ] ONNX, ExecuTorch, and llama.cpp adapters
