@@ -845,14 +845,16 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Phone e offline chat, ek line e.
 
-- [ ] Python `import-gguf`: HF GGUF repo er file list, quant bachai, `gguf` diye metadata (context length, architecture), sha256.
-- [ ] Manifest e ekadhik variant (q4_k_m, q8_0) ar `min_ram_mb`.
-- [ ] `packages/modelport_llamacpp`: `llm_llamacpp` wrap, streaming chat, stop/cancel.
-- [ ] `TextGenerator` task API: `chat()`, `generate()`, `GenerationConfig`.
-- [ ] Phone er RAM pora (Android ar iOS), jate kom RAM e choto variant nay.
-- [ ] Boro file test: 400 MB+ download er majhe net bondho koro. Net ashle resume hote hobe.
+- [x] Python `import-gguf`: HF GGUF repo er file list, quant bachai, `gguf` diye metadata (context length, architecture), sha256.
+- [x] Manifest e ekadhik variant (q4_k_m, q8_0) ar `min_ram_mb`.
+- [x] `packages/modelport_llamacpp`: `llm_llamacpp` wrap, streaming chat, stop/cancel.
+- [x] `TextGenerator` task API: `chat()`, `generate()`, `GenerationConfig`.
+- [x] Phone er RAM pora (Android ar iOS), jate kom RAM e choto variant nay.
+- [ ] Boro file test: 400 MB+ download er majhe net bondho koro. Net ashle resume hote hobe. *(Unit test e resume pass; phone e 105 MB download pass. Asol net-bondho test baki.)*
 
 **Shesh jokhon:** Qwen2.5-0.5B phone e stream kore uttor dey, ar download resume kaj kore.
+
+> **Hoye geche (2026-10-10):** ModelPort diye phone e SmolLM2 download, verify ar chat kaj kore. Qwen spike e cholechilo. Detail: [notes/llm.md](notes/llm.md).
 
 ---
 
