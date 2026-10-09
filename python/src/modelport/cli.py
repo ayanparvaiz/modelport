@@ -14,7 +14,8 @@ from rich.table import Table
 
 from . import __version__
 from .doctor import collect_report
-from .inspection import InspectError, ModelInfo, TensorInfo, inspect_model
+from .errors import ModelPortError
+from .inspection import ModelInfo, TensorInfo, inspect_model
 from .manifest import MANIFEST_FILENAME, Manifest
 from .manifest.schema import render_schema
 
@@ -143,7 +144,7 @@ def inspect_command(
     """Show a model file's inputs, outputs, and metadata."""
     try:
         info = inspect_model(path)
-    except InspectError as error:
+    except ModelPortError as error:
         err_console.print(f"[red]Error:[/red] {error}", highlight=False)
         raise typer.Exit(code=1) from error
 

@@ -12,7 +12,7 @@ def read_gguf(path: Path) -> tuple[list[TensorInfo], list[TensorInfo], dict[str,
     try:
         import gguf
     except ImportError as error:
-        raise MissingDependencyError(".gguf", "gguf") from error
+        raise MissingDependencyError("Inspecting .gguf files", "gguf") from error
 
     reader = gguf.GGUFReader(str(path))
 

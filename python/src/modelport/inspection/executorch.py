@@ -14,7 +14,7 @@ def read_executorch(path: Path) -> tuple[list[TensorInfo], list[TensorInfo], dic
     try:
         from executorch.runtime import Runtime  # pyright: ignore[reportMissingImports]
     except ImportError as error:
-        raise MissingDependencyError(".pte", "executorch") from error
+        raise MissingDependencyError("Inspecting .pte files", "executorch") from error
 
     program = Runtime.get().load_program(str(path))
     methods = sorted(program.method_names)

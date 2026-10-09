@@ -15,7 +15,7 @@ def read_onnx(path: Path) -> tuple[list[TensorInfo], list[TensorInfo], dict[str,
     try:
         import onnx
     except ImportError as error:
-        raise MissingDependencyError(".onnx", "onnx") from error
+        raise MissingDependencyError("Inspecting .onnx files", "onnx") from error
 
     model = onnx.load(str(path), load_external_data=False)
     graph = model.graph

@@ -6,23 +6,14 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Literal
 
+from ..errors import MissingDependencyError, ModelPortError
 from ..hashing import sha256_file
 
 ModelFormat = Literal["onnx", "executorch", "gguf"]
 
 
-class InspectError(Exception):
+class InspectError(ModelPortError):
     """A model file could not be inspected."""
-
-
-class MissingDependencyError(InspectError):
-    """An optional package needed for this format is not installed."""
-
-    def __init__(self, fmt: str, extra: str) -> None:
-        super().__init__(
-            f"Inspecting {fmt} files needs extra packages. "
-            f"Install them with: pip install 'modelport[{extra}]'"
-        )
 
 
 @dataclass(frozen=True)
