@@ -45,7 +45,7 @@ double sigmoid(double x) =>
     x >= 0 ? 1 / (1 + math.exp(-x)) : math.exp(x) / (1 + math.exp(x));
 
 /// Turns a classifier output of shape [1, classes] (or [classes]) into the best classes.
-List<Classification> classify(
+List<Classification> topClasses(
   Tensor scores,
   ClassificationPostprocess rule, {
   List<String>? labels,

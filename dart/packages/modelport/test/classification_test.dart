@@ -13,7 +13,7 @@ void main() {
   });
 
   test('softmax top-k with labels', () {
-    final results = classify(
+    final results = topClasses(
       logits([1, 3, 2]),
       const ClassificationPostprocess(topK: 2),
       labels: ['cat', 'dog', 'bird'],
@@ -24,7 +24,7 @@ void main() {
   });
 
   test('softmax is stable for large values', () {
-    final results = classify(
+    final results = topClasses(
       logits([1000, 1001]),
       const ClassificationPostprocess(),
     );
@@ -32,12 +32,12 @@ void main() {
   });
 
   test('sigmoid and none activations', () {
-    final sig = classify(
+    final sig = topClasses(
       logits([0, 2]),
       const ClassificationPostprocess(activation: Activation.sigmoid),
     );
     expect(sig.first.score, closeTo(0.8808, 1e-4));
-    final raw = classify(
+    final raw = topClasses(
       logits([0.5, -1]),
       const ClassificationPostprocess(activation: Activation.none),
     );
@@ -45,7 +45,7 @@ void main() {
   });
 
   test('ties keep class order and indexes are default labels', () {
-    final results = classify(
+    final results = topClasses(
       logits([1, 1, 0]),
       const ClassificationPostprocess(topK: 3),
     );
@@ -54,14 +54,14 @@ void main() {
 
   test('topK argument overrides the manifest', () {
     expect(
-      classify(logits([1, 2, 3]), const ClassificationPostprocess(), topK: 1),
+      topClasses(logits([1, 2, 3]), const ClassificationPostprocess(), topK: 1),
       hasLength(1),
     );
   });
 
   test('label count must match', () {
     expect(
-      () => classify(
+      () => topClasses(
         logits([1, 2]),
         const ClassificationPostprocess(),
         labels: ['only'],
