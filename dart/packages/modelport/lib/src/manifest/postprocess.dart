@@ -58,10 +58,10 @@ enum BoxFormat { xyxy, cxcywh }
 
 /// How detection outputs are laid out.
 enum DetectionFormat {
-  /// YOLO style: one output of [1, N, 4 + objectness + classes].
+  /// YOLO style: one output of `[1, N, 4 + objectness + classes]`.
   rows,
 
-  /// DETR style: class scores [1, N, classes] plus a separate boxes output.
+  /// DETR style: class scores `[1, N, classes]` plus a separate boxes output.
   detr,
 }
 
@@ -146,7 +146,7 @@ class DetectionPostprocess extends Postprocess {
 
   final DetectionFormat format;
 
-  /// For [DetectionFormat.detr]: the output holding [1, N, 4] boxes.
+  /// For [DetectionFormat.detr]: the output holding `[1, N, 4]` boxes.
   final String? boxesOutput;
   final Activation activation;
 
