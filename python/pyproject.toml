@@ -32,12 +32,27 @@ Issues = "https://github.com/ayanparvaiz/modelport/issues"
 [project.scripts]
 modelport = "modelport.cli:app"
 
+[project.optional-dependencies]
+onnx = [
+    "onnx>=1.17",
+    "onnxruntime>=1.20",
+]
+gguf = [
+    "gguf>=0.17",
+]
+executorch = [
+    "executorch>=1.0",
+    "torch>=2.9",
+]
+
 [dependency-groups]
 dev = [
   "pytest>=8",
   "jsonschema>=4.22",
   "ruff>=0.6",
   "pyright>=1.1.380",
+  "onnx>=1.17",
+  "gguf>=0.17",
 ]
 
 [build-system]
