@@ -5,6 +5,7 @@
 [![modelport_onnx](https://img.shields.io/pub/v/modelport_onnx.svg?label=modelport_onnx)](https://pub.dev/packages/modelport_onnx)
 [![modelport_executorch](https://img.shields.io/pub/v/modelport_executorch.svg?label=modelport_executorch)](https://pub.dev/packages/modelport_executorch)
 [![modelport_llamacpp](https://img.shields.io/pub/v/modelport_llamacpp.svg?label=modelport_llamacpp)](https://pub.dev/packages/modelport_llamacpp)
+[![PyPI](https://img.shields.io/pypi/v/modelport-cli.svg?label=modelport-cli)](https://pypi.org/project/modelport-cli/)
 [![python](https://github.com/ayanparvaiz/modelport/actions/workflows/python.yml/badge.svg)](https://github.com/ayanparvaiz/modelport/actions/workflows/python.yml)
 [![dart](https://github.com/ayanparvaiz/modelport/actions/workflows/dart.yml/badge.svg)](https://github.com/ayanparvaiz/modelport/actions/workflows/dart.yml)
 [![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
@@ -118,8 +119,7 @@ The full plan is in [PLAN.md](PLAN.md) (written in Bangla). In short:
 - [x] ONNX, ExecuTorch, and llama.cpp adapters
 - [x] Image classification, object detection, and text generation task APIs
 - [x] Demo app, model zoo, and docs
-- [x] v0.1.0 on pub.dev
-- [ ] v0.1.0 on PyPI
+- [x] v0.1.0 on pub.dev and PyPI
 - [ ] iOS verification
 
 ## Contributing

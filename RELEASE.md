@@ -24,7 +24,13 @@ Publish er 10–20 minute por pub.dev score ashbe. Core package local e 160/160 
 
 **Porer version gulo automatic korte (optional):** prottek package er pub.dev page e Admin tab → "Publishing from GitHub Actions" enable → repository `ayanparvaiz/modelport`, tag pattern `<package>-v{{version}}` (jemon `modelport_onnx-v{{version}}`). Tarpor `git tag modelport_onnx-v0.1.1 && git push --tags` dilei publish hobe.
 
-## 2. PyPI: Python CLI
+## 2. PyPI: Python CLI ✅ hoye geche (2026-10-10)
+
+https://pypi.org/project/modelport-cli/ · install: `pip install modelport-cli`
+
+Porer version: `python/pyproject.toml` e version bump, tarpor `git tag py-v<version> && git push origin py-v<version>`.
+
+Prothom bar er setup (reference):
 
 Ekbar setup (pypi.org e login kore):
 
