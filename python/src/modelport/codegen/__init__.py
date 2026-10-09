@@ -1,0 +1,1 @@
+"""Code generation from manifests."""
