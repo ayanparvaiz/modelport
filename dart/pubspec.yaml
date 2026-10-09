@@ -7,6 +7,7 @@ environment:
 workspace:
   - packages/modelport
   - packages/modelport_flutter
+  - packages/modelport_onnx
 
 dev_dependencies:
   lints: ^6.0.0

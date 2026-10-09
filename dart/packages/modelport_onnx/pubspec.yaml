@@ -1,0 +1,29 @@
+name: modelport_onnx
+description: >-
+  ONNX Runtime adapter for ModelPort. Runs onnx variants of modelport.json
+  bundles on Android, iOS, macOS, Windows, and Linux.
+version: 0.1.0-dev.1
+repository: https://github.com/ayanparvaiz/modelport
+issue_tracker: https://github.com/ayanparvaiz/modelport/issues
+topics:
+  - ai
+  - onnx
+  - machine-learning
+  - on-device
+
+environment:
+  sdk: ^3.8.0
+  flutter: ">=3.32.0"
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_onnxruntime: ^1.9.0
+  modelport: ^0.1.0-dev.1
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
