@@ -1,0 +1,81 @@
+[project]
+site_name = "ModelPort"
+site_description = "Run any AI model in your Flutter app. Prepare it with Python, run it on-device with one line of Dart."
+site_url = "https://ayanparvaiz.github.io/modelport/"
+repo_url = "https://github.com/ayanparvaiz/modelport"
+repo_name = "ayanparvaiz/modelport"
+edit_uri = "edit/main/docs/"
+copyright = "Apache-2.0 · ModelPort contributors"
+
+nav = [
+  { "Home" = "index.md" },
+  { "Getting started" = [
+    { "Flutter developers" = "getting-started/flutter.md" },
+    { "Python and ML developers" = "getting-started/python.md" },
+  ] },
+  { "Concepts" = "concepts.md" },
+  { "Guides" = [
+    { "Image classification" = "guides/image-classification.md" },
+    { "Object detection" = "guides/object-detection.md" },
+    { "Chat with a language model" = "guides/llm.md" },
+    { "Hosting bundles" = "guides/hosting.md" },
+    { "Smaller models" = "guides/quantization.md" },
+    { "Golden checks" = "guides/golden-checks.md" },
+    { "Writing an adapter" = "guides/writing-an-adapter.md" },
+  ] },
+  { "Model zoo" = "zoo.md" },
+  { "CLI reference" = "cli.md" },
+  { "Manifest spec" = "spec.md" },
+  { "Performance" = "performance.md" },
+  { "Troubleshooting" = "troubleshooting.md" },
+]
+
+[project.theme]
+language = "en"
+features = [
+  "content.action.edit",
+  "content.code.annotate",
+  "content.code.copy",
+  "content.tabs.link",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+]
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Switch to light mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "teal"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "teal"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to system preference"
+
+[project.markdown_extensions]
+admonition = {}
+attr_list = {}
+def_list = {}
+md_in_html = {}
+toc.permalink = true
+pymdownx.details = {}
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.superfences = {}
+pymdownx.tabbed.alternate_style = true
+pymdownx.tasklist.custom_checkbox = true
