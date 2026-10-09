@@ -20,5 +20,6 @@ export 'src/runtime/select.dart';
 export 'src/store/location.dart';
 export 'src/store/model_store.dart';
 export 'src/tasks/image_classifier.dart';
+export 'src/tasks/object_detector.dart';
 export 'src/tasks/text_generator.dart';
 export 'src/tensor.dart';
