@@ -1,0 +1,37 @@
+# Publishes a Dart package to pub.dev when a tag like modelport_onnx-v0.1.0 is pushed.
+#
+# One-time setup per package, after its first manual publish: on pub.dev open
+# the package's Admin tab, enable "Publishing from GitHub Actions" for
+# repository ayanparvaiz/modelport with tag pattern <package>-v{{version}}.
+name: release-dart
+
+on:
+  push:
+    tags: ["modelport-v*", "modelport_*-v*"]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Find the package from the tag
+        id: tag
+        run: |
+          package="${GITHUB_REF_NAME%-v*}"
+          version="${GITHUB_REF_NAME##*-v}"
+          test -d "dart/packages/$package"
+          grep -q "^version: $version$" "dart/packages/$package/pubspec.yaml"
+          echo "package=$package" >> "$GITHUB_OUTPUT"
+      # Sets up the pub.dev OIDC token for this job.
+      - uses: dart-lang/setup-dart@v1
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - name: Install
+        working-directory: dart
+        run: flutter pub get
+      - name: Publish
+        working-directory: dart/packages/${{ steps.tag.outputs.package }}
+        run: flutter pub publish --force
