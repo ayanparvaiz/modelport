@@ -13,6 +13,7 @@ from rich.console import Console
 from rich.table import Table
 
 from . import __version__
+from .doctor import collect_report
 from .inspection import InspectError, ModelInfo, TensorInfo, inspect_model
 from .manifest import MANIFEST_FILENAME, Manifest
 from .manifest.schema import render_schema
@@ -101,6 +102,37 @@ def validate(
             )
     if failed:
         raise typer.Exit(code=1)
+
+
+@app.command()
+def doctor() -> None:
+    """Check Python, optional packages, and disk space."""
+    report = collect_report()
+    summary = Table.grid(padding=(0, 2))
+    summary.add_row("modelport", report.modelport_version)
+    summary.add_row("python", report.python_version)
+    summary.add_row("platform", report.platform)
+    summary.add_row("free disk", f"{report.free_disk_bytes / 1000**3:.1f} GB")
+    console.print(summary)
+    console.print()
+
+    table = Table(title="Optional packages", title_justify="left", show_edge=False)
+    table.add_column("package")
+    table.add_column("extra")
+    table.add_column("version")
+    for package in report.packages:
+        version = package.version or "[yellow]not installed[/yellow]"
+        table.add_row(package.name, package.extra, version)
+    console.print(table)
+
+    for problem in report.problems:
+        console.print(f"[red]![/red] {problem}", highlight=False)
+    if report.hints:
+        console.print("\nTo enable more formats:")
+        for hint in report.hints:
+            console.print(f"  {hint}", markup=False, highlight=False)
+    if not report.problems and not report.hints:
+        console.print("\n[green]Everything is installed.[/green]")
 
 
 @app.command("inspect")
