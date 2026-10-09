@@ -14,8 +14,8 @@
       "precision": "fp32",
       "file": {
         "path": "onnx-fp32/model.onnx",
-        "size": 10213441,
-        "sha256": "9f2c4a0d7e1b3c5a8f6e2d4b0a9c7e5f3d1b8a6c4e2f0d9b7a5c3e1f8d6b4a2c"
+        "size": 10461888,
+        "sha256": "69c712c3637efad9168e46e4ab6b488af181c20bde7734305cfd30927395bdac"
       },
       "min_ram_mb": 256
     },
@@ -26,8 +26,8 @@
       "precision": "fp32",
       "file": {
         "path": "executorch-xnnpack-fp32/model.pte",
-        "size": 10400012,
-        "sha256": "1ab4c6e8f0a2b4d6c8e0f2a4b6d8c0e2f4a6b8d0c2e4f6a8b0d2c4e6f8a0b2d4"
+        "size": 10205344,
+        "sha256": "8ff10907a0dc09d661449018e769ce35349eca63cb110edc38ee715f6c7ebb36"
       },
       "min_ram_mb": 256
     }
@@ -59,8 +59,8 @@
         "activation": "softmax",
         "labels": {
           "path": "labels.txt",
-          "size": 10472,
-          "sha256": "c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b9c0d1"
+          "size": 10488,
+          "sha256": "ee4fa67b1dd46919ef87529b70e25bdd1ec9ebd350de3ad426e6640eb70320a1"
         },
         "top_k": 5
       }
@@ -71,14 +71,14 @@
       "pixel_values": {
         "path": "golden/pixel_values.bin",
         "size": 602112,
-        "sha256": "5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f"
+        "sha256": "791a0f0caae0b9e4a81d7ad9fe3db67514bc2f67fbff71fb4d29f6cd66ff011d"
       }
     },
     "outputs": {
       "logits": {
         "path": "golden/logits.bin",
         "size": 4000,
-        "sha256": "7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d9e0f1a2b3c4d5e6f7a8b"
+        "sha256": "f2370d40c35c4d0af493b4eb9a38a250dc8624777c9e2e0f4e82ffae2531618f"
       }
     },
     "tolerance": { "atol": 0.001, "rtol": 0.001 }
