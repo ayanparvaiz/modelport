@@ -862,14 +862,16 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Dwitiyo task, ar custom model er jonno typed code.
 
-- [ ] Detection model bachai, **license dekhe**. YOLOX-Nano (Apache-2.0) ba torchvision SSDLite (BSD-3). Spike kore je ta shohoje export hoy.
-- [ ] **Ultralytics YOLOv8/YOLO11 na.** Egulo AGPL-3.0, amader Apache project ar Zoo te jhamela korbe.
-- [ ] Postprocess: box decode, NMS, score threshold. Setting manifest e.
-- [ ] `ObjectDetector` task API. Box er coordinate original chhobir size e.
-- [ ] `gen-dart`: Jinja2 template theke typed class (input/output naam, shape constant, `predict` method).
-- [ ] CI te generated code `dart analyze` pass kore kina test.
+- [x] Detection model bachai, **license dekhe**. YOLOX-Nano (Apache-2.0) ba torchvision SSDLite (BSD-3). Spike kore je ta shohoje export hoy. *(Bachai: YOLOS-tiny, Apache-2.0, Hugging Face theke sorasori export hoy.)*
+- [x] **Ultralytics YOLOv8/YOLO11 na.** Egulo AGPL-3.0, amader Apache project ar Zoo te jhamela korbe.
+- [x] Postprocess: box decode, NMS, score threshold. Setting manifest e.
+- [x] `ObjectDetector` task API. Box er coordinate original chhobir size e.
+- [x] `gen-dart`: Jinja2 template theke typed class (input/output naam, shape constant, `predict` method).
+- [x] CI te generated code `dart analyze` pass kore kina test.
 
 **Shesh jokhon:** Detection demo kaj kore, ar custom model generated class diye chalano jay.
+
+> **Hoye geche (2026-10-10):** Phone e YOLOS-tiny golden check pass, kukurer chobi te "dog (1.00)". Spec e DETR-style output (`format: detr`) jog holo. `gen-dart` er generated code Dart CI te compile ar run hoy.
 
 ---
 
