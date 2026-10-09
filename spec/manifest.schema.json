@@ -54,7 +54,7 @@
     },
     "DetectionPostprocess": {
       "additionalProperties": false,
-      "description": "Boxes with class scores, shaped [1, N, 4 + objectness + classes].\n\nDraft for spec 0.1. The exact layout will be confirmed when the first detection model\nis exported in Phase 7.",
+      "description": "Boxes with class scores. Two layouts are supported.\n\n* `rows` (YOLO style): this output is [1, N, 4 + objectness + classes].\n* `detr` (DETR, YOLOS, RT-DETR style): this output holds class scores\n  [1, N, classes], and `boxes_output` names the [1, N, 4] boxes output.",
       "properties": {
         "type": {
           "const": "detection",
@@ -62,9 +62,40 @@
           "title": "Type",
           "type": "string"
         },
+        "format": {
+          "default": "rows",
+          "enum": [
+            "rows",
+            "detr"
+          ],
+          "title": "Format",
+          "type": "string"
+        },
+        "boxes_output": {
+          "description": "For format 'detr': the output with the [1, N, 4] boxes.",
+          "title": "Boxes Output",
+          "type": "string"
+        },
+        "activation": {
+          "default": "none",
+          "description": "Applied to class scores before thresholding.",
+          "enum": [
+            "softmax",
+            "sigmoid",
+            "none"
+          ],
+          "title": "Activation",
+          "type": "string"
+        },
+        "background_class": {
+          "default": false,
+          "description": "Whether the last class means 'no object' and is ignored, as in DETR.",
+          "title": "Background Class",
+          "type": "boolean"
+        },
         "box_format": {
           "default": "cxcywh",
-          "description": "How the first four values of each row describe a box.",
+          "description": "How the four box values describe a box.",
           "enum": [
             "xyxy",
             "cxcywh"
@@ -72,9 +103,15 @@
           "title": "Box Format",
           "type": "string"
         },
+        "normalized": {
+          "default": false,
+          "description": "true: box values are 0-1 fractions of the input size; false: input pixels.",
+          "title": "Normalized",
+          "type": "boolean"
+        },
         "has_objectness": {
-          "default": true,
-          "description": "Whether a single objectness score follows the box values.",
+          "default": false,
+          "description": "For format 'rows': an objectness score follows the box.",
           "title": "Has Objectness",
           "type": "boolean"
         },
@@ -87,7 +124,7 @@
         },
         "iou_threshold": {
           "default": 0.45,
-          "description": "Overlap above which non-max suppression drops boxes.",
+          "description": "Non-max suppression overlap threshold. 1 turns suppression off.",
           "maximum": 1,
           "minimum": 0,
           "title": "Iou Threshold",

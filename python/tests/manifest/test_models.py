@@ -110,3 +110,21 @@ def test_from_file(tmp_path, classifier):
     path = tmp_path / "modelport.json"
     path.write_text(json.dumps(classifier), encoding="utf-8")
     assert Manifest.from_file(path).id == "mobilenet_v3_small"
+
+
+def test_detr_boxes_output_must_exist(classifier):
+    classifier["task"] = "object-detection"
+    classifier["outputs"] = [
+        {
+            "name": "logits",
+            "dtype": "float32",
+            "shape": [1, 100, 92],
+            "postprocess": {"type": "detection", "format": "detr", "boxes_output": "boxes"},
+        },
+        {"name": "pred_boxes", "dtype": "float32", "shape": [1, 100, 4]},
+    ]
+    del classifier["golden"]
+    with pytest.raises(ValidationError, match="boxes_output 'boxes' must name another output"):
+        Manifest.model_validate(classifier)
+    classifier["outputs"][0]["postprocess"]["boxes_output"] = "pred_boxes"
+    assert Manifest.model_validate(classifier).task.value == "object-detection"

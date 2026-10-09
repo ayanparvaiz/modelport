@@ -6,7 +6,7 @@ A `modelport.json` manifest describes everything an app needs to download, run, 
 - Examples: [`spec/examples/`](../spec/examples/)
 - Check a manifest: `modelport validate path/to/modelport.json`
 
-> **Status: draft.** Spec 0.1 may still change before ModelPort v0.1.0 ships. Detection output is a draft until the first detection model is exported.
+> **Status: draft.** Spec 0.1 may still change before ModelPort v0.1.0 ships.
 
 ## Bundle layout
 
@@ -121,18 +121,30 @@ The resize method and antialias setting are explicit because image libraries in 
 | `labels` | none | UTF-8 text file, one class name per line, in class-index order. |
 | `top_k` | `5` | How many results to return by default. |
 
-### Detection postprocessing (draft)
+### Detection postprocessing
 
-Output rows are `[box(4), objectness(1, optional), class scores(C)]`.
+Two output layouts are supported:
+
+| `format` | Layout |
+|---|---|
+| `rows` | YOLO style. This output is `[1, N, 4 + objectness + classes]`. |
+| `detr` | DETR, YOLOS, and RT-DETR style. This output holds class scores `[1, N, classes]`, and `boxes_output` names the `[1, N, 4]` boxes output. |
 
 | Field | Default | Description |
 |---|---|---|
+| `format` | `rows` | `rows` or `detr`. |
+| `boxes_output` | none | Required for `detr`: the name of the boxes output. |
+| `activation` | `none` | `softmax`, `sigmoid`, or `none`, applied to class scores. |
+| `background_class` | `false` | Whether the last class means "no object" and is ignored, as in DETR. |
 | `box_format` | `cxcywh` | `cxcywh` or `xyxy`. |
-| `has_objectness` | `true` | Whether an objectness score follows the box. |
+| `normalized` | `false` | `true`: boxes are 0–1 fractions of the model input size. `false`: model input pixels. |
+| `has_objectness` | `false` | `rows` only: an objectness score follows the box and multiplies each class score. |
 | `score_threshold` | `0.25` | Drop boxes with a lower score. |
-| `iou_threshold` | `0.45` | Non-max suppression overlap threshold. |
+| `iou_threshold` | `0.45` | Non-max suppression overlap threshold, per class. `1` turns suppression off. |
 | `max_detections` | `100` | Keep at most this many boxes. |
 | `labels` | none | Class names, one per line. |
+
+Readers map boxes back to the original image by undoing the center crop and the resize.
 
 ## LLM settings
 
@@ -165,7 +177,7 @@ The default `tolerance` is `atol = 0.001` and `rtol = 0.001`.
 | Task | Needs |
 |---|---|
 | `image-classification` | An input with image `preprocess` and an output with `classification` postprocess. |
-| `object-detection` | An input with image `preprocess` and an output with `detection` postprocess. |
+| `object-detection` | An input with image `preprocess` and an output with `detection` postprocess. For `detr`, `boxes_output` must name another output. |
 | `text-generation` | An `llm` section and only `llamacpp` variants. No `golden`. |
 
 ## Versioning

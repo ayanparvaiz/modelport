@@ -146,6 +146,7 @@ class Manifest(StrictModel):
 
         if self.task in TENSOR_TASKS:
             self._check_tensor_task()
+            self._check_detection()
         else:
             self._check_text_generation()
 
@@ -179,6 +180,18 @@ class Manifest(StrictModel):
             raise ValueError("task 'text-generation' supports only runtime 'llamacpp' in spec 0.1")
         if self.golden is not None:
             raise ValueError("golden tests are only for tensor tasks")
+
+    def _check_detection(self) -> None:
+        names = {o.name for o in self.outputs}
+        for output in self.outputs:
+            post = output.postprocess
+            if not isinstance(post, DetectionPostprocess) or post.boxes_output is None:
+                continue
+            if post.boxes_output not in names or post.boxes_output == output.name:
+                raise ValueError(
+                    f"output '{output.name}' boxes_output '{post.boxes_output}' "
+                    "must name another output"
+                )
 
     def _check_golden(self, golden: Golden) -> None:
         input_names = {i.name for i in self.inputs}

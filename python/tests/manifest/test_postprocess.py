@@ -51,3 +51,24 @@ def test_thresholds_must_be_between_zero_and_one(field):
 def test_top_k_must_be_positive():
     with pytest.raises(ValidationError):
         ClassificationPostprocess(top_k=0)
+
+
+def test_detr_format_needs_boxes_output():
+    with pytest.raises(ValidationError, match="needs 'boxes_output'"):
+        DetectionPostprocess.model_validate({"format": "detr"})
+    post = DetectionPostprocess.model_validate(
+        {"format": "detr", "boxes_output": "pred_boxes", "activation": "softmax"}
+    )
+    assert post.boxes_output == "pred_boxes"
+
+
+def test_rows_format_rejects_boxes_output():
+    with pytest.raises(ValidationError, match="only for format 'detr'"):
+        DetectionPostprocess.model_validate({"boxes_output": "pred_boxes"})
+
+
+def test_detr_format_rejects_objectness():
+    with pytest.raises(ValidationError, match="only for format 'rows'"):
+        DetectionPostprocess.model_validate(
+            {"format": "detr", "boxes_output": "b", "has_objectness": True}
+        )
