@@ -932,7 +932,7 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 - [x] Security check: sudhu https, sha256 lagbei, manifest e code nai, Python e unsafe pickle load nai.
 - [x] Device test table: *(OPPO CPH1937 ar macOS. iOS skip, tomar kotha moto.)* low-end Android (4 GB ba kom), mid Android, iPhone.
 - [x] PyPI trusted publishing setup. pub.dev automated publishing (GitHub Actions, tag diye). *(Workflow ready; pypi.org ar pub.dev e ekbar setting tomar.)*
-- [ ] `0.1.0` tag → PyPI, pub.dev (5 package), GitHub Release. *(Sob ready, auto-mode publish atkeche. Step gulo [RELEASE.md](RELEASE.md) e.)*
+- [x] `0.1.0` tag → PyPI, pub.dev (5 package), GitHub Release. *(pub.dev ar GitHub release hoye geche 2026-10-10. PyPI baki: [RELEASE.md](RELEASE.md).)*
 - [x] Notun machine e test: *(wheel clean environment e chole; dart pub publish --dry-run 0 warning)* `pip install modelport`, notun Flutter project e `flutter pub add`.
 
 **Shesh jokhon:** Sob jaygay 0.1.0 live, ar clean install kaj kore.

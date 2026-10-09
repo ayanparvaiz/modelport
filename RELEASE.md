@@ -2,7 +2,11 @@
 
 Sob kichu ready. Nicher step gulo tomar account lage, tai tumi nije korbe. Mot 10–15 minute.
 
-## 1. pub.dev: 5 ta package (ei order e i)
+## 1. pub.dev: 5 ta package ✅ hoye geche (2026-10-10)
+
+Sob 5 ta 0.1.0 publish kora: https://pub.dev/packages/modelport
+
+Nicher command gulo sudhu reference er jonno.
 
 Core age, karon baki gulo oitar upor nirbhor kore. Prottekta te dry-run e 0 warning chilo.
 
@@ -39,9 +43,9 @@ git push origin py-v0.1.0
 
 GitHub Actions nijei build kore PyPI te publish korbe. Kono token lage na.
 
-## 3. GitHub release
+## 3. GitHub release ✅ hoye geche
 
-https://github.com/ayanparvaiz/modelport/releases e `ModelPort 0.1.0` draft ache, demo APK (65 MB, arm64) shoho. "Edit" → tag `v0.1.0` → **Publish release**.
+https://github.com/ayanparvaiz/modelport/releases/tag/v0.1.0, demo APK (65 MB, arm64) shoho.
 
 ## 4. Launch
 
