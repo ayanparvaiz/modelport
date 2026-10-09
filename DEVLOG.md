@@ -31,3 +31,28 @@ Protidin er choto note. Shurute "aj ki korbo", sheshe "ki holo, kothay atkalam".
 - Phase 2: source loader (`torchvision:`, `hf:`, `file:`) ar ONNX exporter
 - Spike er shikkha (`.contiguous()`) exporter e boshano
 - Hugging Face org, PyPI account (nije)
+
+---
+
+## 2026-10-09 · Day 1, rat
+
+**Ki holo**
+- Phase 2 er Python CLI prai shesh: `export`, `quantize`, `verify`, `pack`, `publish`
+- Source: `torchvision:`, `hf:`, `file:`
+- Export: ONNX ar ExecuTorch (Phase 5 er Python ongsho age i hoye gelo)
+- Preprocessing er Python reference implementation, torchvision er sathe 0.00001 er moddhe mile
+- MobileNetV3 ar DeiT-tiny asol model e export → quantize → verify sob pass
+- CI fail er karon thik: pyright optional import e error dicchilo. Ekhon warning, ar alada CPU torch job sob test chalay.
+
+**Shikkha**
+- Dynamic int8 Conv layer e CNN er accuracy nosto kore (MobileNetV3 er top-1 bodle gechilo). Tai int8 sudhu MatMul/Gemm e. Transformer (DeiT) e eta 31% size e niye ashe.
+- torch er dynamo exporter graph e shape annotation (`value_info`) rakhe ja ONNX Runtime quantizer er sathe mele na. Quantize er age egulo muche fela lage.
+- torchvision PIL image ke PIL diye resize kore, tai antialias sobsomoy on. Spec e eta spashto kora holo.
+- Center crop e torchvision Python er `round()` (half to even) use kore, HF floor use kore. Spec e torchvision er ta nilam.
+
+**Khola proshno**
+- fp16 ONNX model purono ARMv8.0 phone e (jemon OPPO CPH1937) chole kina. Phase 4 e phone e test korte hobe.
+
+**Porer kaj**
+- Phase 3: Dart core package
+
