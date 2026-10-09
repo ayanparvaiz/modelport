@@ -74,4 +74,16 @@ Protidin er choto note. Shurute "aj ki korbo", sheshe "ki holo, kothay atkalam".
 
 **Porer kaj**
 - Phase 5: `modelport_executorch` adapter (Python ongsho hoye geche)
+- Phase 5: `modelport_executorch`, phone e model run 17 ms (ONNX 77 ms).
+- Phase 6: `import-gguf` ar `modelport_llamacpp`. Phone nije Hugging Face theke SmolLM2 download kore chat kore.
+- Phase 7: YOLOS-tiny diye object detection, `ObjectDetector`, `gen-dart`.
+
+**Aro shikkha**
+- executorch_dart macOS e `CMAKE_OSX_DEPLOYMENT_TARGET=11.0` hardcode kore, Xcode 27 nay na. Cache muchle chole. Upstream bug.
+- YOLOS 512x512 phone e 3.6 s. Phone er jonno choto image size dorkar.
+- Detection model gulo duita output dey (DETR style), tai spec e `format: detr` lagche.
+
+**Porer kaj**
+- Phase 8: demo app (sob engine ek app e) ar model zoo
+- Hugging Face e publish korte tomar HF login lagbe
 
