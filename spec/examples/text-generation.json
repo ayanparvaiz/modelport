@@ -1,0 +1,39 @@
+{
+  "schema": "modelport/0.1",
+  "id": "qwen2.5-0.5b-instruct",
+  "version": "1.0.0",
+  "task": "text-generation",
+  "license": "Apache-2.0",
+  "name": "Qwen2.5 0.5B Instruct",
+  "description": "Small multilingual chat model. Files stay in the original Qwen repo.",
+  "source": "hf:Qwen/Qwen2.5-0.5B-Instruct-GGUF",
+  "variants": [
+    {
+      "id": "gguf-q4_k_m",
+      "runtime": "llamacpp",
+      "precision": "q4_k_m",
+      "file": {
+        "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q4_k_m.gguf",
+        "size": 491400032,
+        "sha256": "74a4da8c9fdbcd15bd1f6d01d621410d31c6fc00986f5eb687824e7b93d7a9db"
+      },
+      "min_ram_mb": 1024
+    },
+    {
+      "id": "gguf-q8_0",
+      "runtime": "llamacpp",
+      "precision": "q8_0",
+      "file": {
+        "url": "https://huggingface.co/Qwen/Qwen2.5-0.5B-Instruct-GGUF/resolve/main/qwen2.5-0.5b-instruct-q8_0.gguf",
+        "size": 675710816,
+        "sha256": "ca59ca7f13d0e15a8cfa77bd17e65d24f6844b554a7b6c12e07a5f89ff76844e"
+      },
+      "min_ram_mb": 2048
+    }
+  ],
+  "llm": {
+    "context_length": 4096,
+    "chat_template": "from_gguf",
+    "defaults": { "temperature": 0.7, "top_p": 0.9, "max_tokens": 512 }
+  }
+}
