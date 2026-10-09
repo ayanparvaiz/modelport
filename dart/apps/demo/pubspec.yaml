@@ -1,0 +1,33 @@
+name: modelport_demo
+description: >-
+  ModelPort demo: classify, detect, and chat with on-device models from the
+  ModelPort zoo, using ONNX Runtime, ExecuTorch, and llama.cpp.
+publish_to: none
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.8.0
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  image_picker: ^1.2.4
+  modelport_executorch: ^0.1.0-dev.1
+  modelport_flutter: ^0.1.0-dev.1
+  modelport_llamacpp: ^0.1.0-dev.1
+  modelport_onnx: ^0.1.0-dev.1
+  path: ^1.9.1
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
