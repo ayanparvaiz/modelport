@@ -812,14 +812,16 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Prothom bar asol phone e asol model, ModelPort diye.
 
-- [ ] `packages/modelport_onnx`: `flutter_onnxruntime` wrap. `Tensor` ↔ `OrtValue` convert. Thread setting.
-- [ ] `ImageClassifier` task API.
-- [ ] Chhoto example app: gallery theke chhobi → top-3 result.
-- [ ] **On-device golden test:** `integration_test` e golden input chalao, expected output er sathe milao.
-- [ ] Android ar iOS dui jaygay chalao.
+- [x] `packages/modelport_onnx`: `flutter_onnxruntime` wrap. `Tensor` ↔ `OrtValue` convert. Thread setting.
+- [x] `ImageClassifier` task API.
+- [x] Chhoto example app: gallery theke chhobi → top-3 result.
+- [x] **On-device golden test:** `integration_test` e golden input chalao, expected output er sathe milao.
+- [x] Android ar iOS dui jaygay chalao. *(Android OPPO ar macOS e pass. iPhone e signing setup baki.)*
 
 **Shesh jokhon:** Phone e `ImageClassifier.load('hf://modelport-dev/mobilenet_v3_small')` thik result dey.
 
+> **Hoye geche (2026-10-10):** OPPO phone e tin variant er golden check pass, chobi te Samoyed. Detail: [notes/first-light.md](notes/first-light.md).
+>
 > **Eta prothom boro milestone.** Ekta 20 second er video record koro ar post koro. Eta "build in public" er shuru.
 
 ---
@@ -828,9 +830,9 @@ modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
 
 **Lokkho:** Ek bundle, dui engine, same result.
 
-- [ ] Python: ExecuTorch exporter (`torch.export` → XNNPACK → `.pte`).
-- [ ] `inspect` e `.pte` support.
-- [ ] `verify`: PyTorch vs ExecuTorch Python runtime.
+- [x] Python: ExecuTorch exporter (`torch.export` → XNNPACK → `.pte`).
+- [x] `inspect` e `.pte` support.
+- [x] `verify`: PyTorch vs ExecuTorch Python runtime.
 - [ ] `packages/modelport_executorch`: `ExecuTorchModel.load(path)`, `forward(list)`, input order manifest theke.
 - [ ] Mobilenet bundle e dui variant: onnx ar executorch.
 - [ ] Dui engine er tulona: speed, app size, top-1 same kina. Result docs e table akare.
