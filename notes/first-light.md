@@ -68,3 +68,17 @@ Aro druto korar upay (pore): decode er somoy i choto kore pora (`targetWidth`), 
 - macOS e Xcode 27 deployment target 12 er niche nay. Example app er target 14.0 rakhte hobe.
 - Prothom macOS build bhul target e hole `executorch_dart` er CMake cache 11.0 e atke thake. Thik korte `dart/.dart_tool/hooks_runner/shared/executorch_dart/build/` er cache folder muchte hoy. Docs er troubleshooting e jabe.
 
+## Object detection: YOLOS-tiny (Phase 7)
+
+`modelport export hf:hustvl/yolos-tiny --target onnx,executorch` (Apache-2.0, 6.5M parameter, 512x512).
+
+| | OPPO CPH1937 | macOS |
+|---|---|---|
+| Golden check (ExecuTorch) | PASS | PASS |
+| `dog.jpg` | dog (1.00), box (139, 35, 1440, 1151) | ekdom same |
+| Detect | 3.6 s | 0.58 s |
+
+**Shikkha:**
+- YOLOS 512x512 e ~1100 token er transformer, mid-range phone er jonno bhari. Phone app er jonno `--image-size 320` ba aro choto detector bhalo.
+- **executorch_dart er macOS bug:** hook `CMAKE_OSX_DEPLOYMENT_TARGET=11.0` hardcode kore, Xcode 27 minimum 12 chay. Package er `flutter test` ar app build ekoi build folder share kore, tai kokhono kokhono 11.0 cache e fire ashe. Workaround: `dart/.dart_tool/hooks_runner/shared/executorch_dart/build/` muche abar build. Upstream e report korar moto.
+
