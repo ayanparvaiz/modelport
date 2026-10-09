@@ -247,6 +247,8 @@ Step 1 theke 6 ekbar hoy. Step 7 theke 10 protibar hoy.
 
 ## 7. Manifest spec: sobcheye important file
 
+> **Update (2026-10-09):** Asol spec ekhon [docs/spec.md](docs/spec.md) ar [spec/](spec/) folder e. Nicher example gulo prothom draft. Asol spec e `golden` tensor er naam diye file map kore, ar tolerance `golden.tolerance` er bhitore thake.
+
 Manifest holo model er **ID card**. Model er sob gyan ei ek file e thake. Tai Dart code generic thakte pare. **Notun model mane notun manifest, notun code na.**
 
 Ei spec bhalo hole onno developer ra o nijer engine er jonno adapter likhbe. Tokhon ModelPort ecosystem er center hoye jabe. Tai ei part e sobcheye beshi chinta korbo.
@@ -724,15 +726,16 @@ Prottek phase e thakbe **lokkho**, **kaj er checklist**, ar **kokhon shesh dhorb
 
 **Lokkho:** Design er age nije chokhe dekha je 3 ta engine amar phone e asholei chole. Spike mane chhoto, fela dewar moto experiment. Ekhane problem dhorle pore 2 mash bachbe.
 
-- [ ] Mac e Flutter 3.38+, Xcode, Android Studio, Python 3.12, uv install. `flutter doctor` sob green.
-- [ ] GitHub e `modelport-dev` org khulo. Hugging Face e same naam e org khulo.
+- [x] Mac e Flutter 3.38+, Xcode, Android Studio, Python 3.12, uv install. *(Flutter 3.44.9, uv, Python 3.12, cmake. Baki: `flutter doctor --android-licenses` nije accept korte hobe.)*
+- [x] GitHub repo: https://github.com/ayanparvaiz/modelport (public). *(`modelport-dev` org pore dorkar hole.)*
+- [ ] Hugging Face e `modelport-dev` org khulo. *(Naam ekhono free.)*
 - [ ] PyPI account khulo, 2FA on koro. pub.dev er jonno Google account ready rakho.
-- [ ] **Spike A:** torchvision `mobilenet_v3_small` → ONNX (choto Python script) → `flutter_onnxruntime` diye Android e ekta chhobi classify.
-- [ ] **Spike B:** ekoi model → `.pte` (ExecuTorch, XNNPACK) → `executorch_flutter` diye run.
-- [ ] **Spike C:** `Qwen2.5-0.5B-Instruct` GGUF (Q4_K_M) → `llm_llamacpp` diye chat.
-- [ ] Prottek spike e note: app size koto barlo, load time, inference time, ki jhamela holo. Sob `notes/spikes.md` e.
-- [ ] LLM engine final koro: `llm_llamacpp` naki `llama_cpp_dart`, spike er result dekhe.
-- [ ] Naam final koro. Pub.dev, PyPI, GitHub abar check koro.
+- [x] **Spike A:** torchvision `mobilenet_v3_small` → ONNX (choto Python script) → `flutter_onnxruntime` diye Android e ekta chhobi classify. *(OPPO CPH1937 e pass.)*
+- [x] **Spike B:** ekoi model → `.pte` (ExecuTorch, XNNPACK) → `executorch_flutter` diye run. *(Pass, ONNX er cheye 4 gun druto.)*
+- [x] **Spike C:** `Qwen2.5-0.5B-Instruct` GGUF (Q4_K_M) → `llm_llamacpp` diye chat. *(Pass, Android e workaround lageche.)*
+- [x] Prottek spike e note: app size koto barlo, load time, inference time, ki jhamela holo. Sob `notes/spikes.md` e.
+- [x] LLM engine final koro: `llm_llamacpp` naki `llama_cpp_dart`, spike er result dekhe. *(Siddhanto: `llm_llamacpp`.)*
+- [x] Naam final koro. Pub.dev, PyPI, GitHub abar check koro. *(`modelport`, 2026-10-09 e pub.dev ar PyPI te free.)*
 
 **Shesh jokhon:** 3 ta spike ekta real phone e chole, ar notes lekha ache.
 
@@ -742,14 +745,14 @@ Prottek phase e thakbe **lokkho**, **kaj er checklist**, ar **kokhon shesh dhorb
 
 **Lokkho:** Python ar Dart er moddhe "contract" ta pakka kora.
 
-- [ ] Monorepo banao: README, Apache-2.0 LICENSE, `.gitignore`, GitHub e push.
-- [ ] `python/` e `uv init --package` diye project.
-- [ ] Pydantic model likho: `Manifest`, `Variant`, `FileRef`, `TensorSpec`, `ImagePreprocess`, `ClassificationPostprocess`, `DetectionPostprocess`, `LlmConfig`.
-- [ ] Pydantic theke JSON Schema export script → `spec/manifest.schema.json`.
-- [ ] 3 ta example likho: classification, detection, text-generation → `spec/examples/`.
-- [ ] Bhul example o likho (jemon sha256 nai). Test e egulo fail korte hobe.
-- [ ] `docs/spec.md` e prottek field er explanation.
-- [ ] Version er niyom docs e likho.
+- [x] Monorepo banao: README, Apache-2.0 LICENSE, `.gitignore`, GitHub e push.
+- [x] `python/` e `uv init --package` diye project.
+- [x] Pydantic model likho: `Manifest`, `Variant`, `FileRef`, `TensorSpec`, `ImagePreprocess`, `ClassificationPostprocess`, `DetectionPostprocess`, `LlmConfig`.
+- [x] Pydantic theke JSON Schema export script → `spec/manifest.schema.json`.
+- [x] 3 ta example likho: classification, detection, text-generation → `spec/examples/`.
+- [x] Bhul example o likho (jemon sha256 nai). Test e egulo fail korte hobe.
+- [x] `docs/spec.md` e prottek field er explanation.
+- [x] Version er niyom docs e likho.
 
 **Shesh jokhon:** Schema, example, test sob merge hoyeche, ar CI green.
 
@@ -759,7 +762,7 @@ Prottek phase e thakbe **lokkho**, **kaj er checklist**, ar **kokhon shesh dhorb
 
 **Lokkho:** Prothom kajer tool. Ek command e model theke verified bundle.
 
-- [ ] Typer app skeleton. `modelport --help` e sob command dekhay.
+- [x] Typer app skeleton. `modelport --help` e sob command dekhay. *(`--version`, `schema`, `validate` ache.)*
 - [ ] `doctor` command.
 - [ ] `inspect` command, `.onnx` file er jonno.
 - [ ] Source loader: `torchvision:`, `hf:` (image classification), `file:script.py:fn`.
