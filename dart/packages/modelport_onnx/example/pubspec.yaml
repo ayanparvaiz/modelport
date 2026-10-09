@@ -1,0 +1,33 @@
+name: modelport_onnx_example
+description: Runs a ModelPort bundle with the ONNX adapter and checks it against Python.
+publish_to: none
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.8.0
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  modelport_flutter: ^0.1.0-dev.1
+  modelport_onnx: ^0.1.0-dev.1
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  # Filled by tool/copy_bundle.sh, see README.md.
+  assets:
+    - assets/images/
+    - assets/models/mobilenet_v3_small/
+    - assets/models/mobilenet_v3_small/onnx-fp32/
+    - assets/models/mobilenet_v3_small/onnx-fp16/
+    - assets/models/mobilenet_v3_small/onnx-int8/
+    - assets/models/mobilenet_v3_small/golden/

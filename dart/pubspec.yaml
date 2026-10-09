@@ -8,6 +8,7 @@ workspace:
   - packages/modelport
   - packages/modelport_flutter
   - packages/modelport_onnx
+  - packages/modelport_onnx/example
 
 dev_dependencies:
   lints: ^6.0.0
