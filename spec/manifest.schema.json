@@ -128,6 +128,7 @@
             "onnx-fp32/model.onnx",
             "labels.txt"
           ],
+          "pattern": "^(?!/)(?![A-Za-z]:)(?!.*\\\\)(?!.*//)(?!.*/$)(?!(?:.*/)?\\.\\.?(?:/|$)).+$",
           "title": "Path",
           "type": "string"
         },

@@ -10,6 +10,10 @@ from .base import Sha256, StrictModel
 
 _WINDOWS_DRIVE = re.compile(r"^[A-Za-z]:")
 
+# Same rules as `_check_relative_path`, for JSON Schema users such as editors and Dart.
+# Python's validator does not use it because pydantic-core's regex engine has no lookahead.
+SAFE_PATH_PATTERN = r"^(?!/)(?![A-Za-z]:)(?!.*\\)(?!.*//)(?!.*/$)(?!(?:.*/)?\.\.?(?:/|$)).+$"
+
 
 class FileRef(StrictModel):
     """A file that belongs to a model, such as weights, labels, or golden test data.
@@ -25,6 +29,7 @@ class FileRef(StrictModel):
         default=None,
         description="POSIX path relative to the manifest file. Use for files inside the bundle.",
         examples=["onnx-fp32/model.onnx", "labels.txt"],
+        json_schema_extra={"pattern": SAFE_PATH_PATTERN},
     )
     url: str | None = Field(
         default=None,
