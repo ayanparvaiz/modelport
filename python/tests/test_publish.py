@@ -35,7 +35,7 @@ def fake_hub(monkeypatch):
 def test_publish_uploads_only_listed_files(bundle, fake_hub):
     (bundle.root / "scratch.txt").write_text("not for upload", encoding="utf-8")
     result = publish_bundle(bundle.root, "someone/tiny-cnn")
-    assert result.hf_uri == "hf://someone/tiny-cnn"
+    assert result.location == "hf://someone/tiny-cnn"
     (create, upload) = fake_hub.calls
     assert create[1] == "someone/tiny-cnn" and create[2]["exist_ok"]
     patterns = upload[1]["allow_patterns"]
@@ -61,3 +61,37 @@ def test_model_card_lists_variants(bundle):
     card = model_card(bundle.read_manifest(), "someone/tiny-cnn")
     assert "| `onnx-fp32` | onnx | fp32 |" in card
     assert "hf://someone/tiny-cnn" in card
+
+
+def test_github_manifest_points_at_release_assets(bundle):
+    from modelport.publish import github_manifest
+
+    remote = github_manifest(bundle.read_manifest(), "me/models", "zoo-1")
+    urls = [ref.url for ref in remote.files()]
+    assert all(ref.path is None for ref in remote.files())
+    assert (
+        "https://github.com/me/models/releases/download/zoo-1/tiny_cnn--onnx-fp32--model.onnx"
+        in urls
+    )
+    assert remote.files()[0].sha256 == bundle.read_manifest().files()[0].sha256
+
+
+def test_publish_to_github_creates_release_and_uploads(bundle):
+    import subprocess
+
+    from modelport.publish import publish_to_github
+
+    calls = []
+
+    def fake_run(args):
+        calls.append(args)
+        code = 1 if args[:3] == ["gh", "release", "view"] else 0
+        return subprocess.CompletedProcess(args, code, "", "")
+
+    result = publish_to_github(bundle.root, "me/models", "zoo-1", run=fake_run)
+    assert [c[2] for c in calls] == ["view", "create", "upload"]
+    upload = calls[-1]
+    assert "--clobber" in upload
+    assert any(a.endswith("tiny_cnn.json") for a in upload)
+    assert result.location == "https://github.com/me/models/releases/download/zoo-1/tiny_cnn.json"
+    assert "tiny_cnn--golden--logits.bin" in result.files
