@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:meta/meta.dart';
 
@@ -8,6 +9,7 @@ import 'manifest/manifest.dart';
 import 'manifest/postprocess.dart';
 import 'manifest/tensors.dart';
 import 'postprocess/classification.dart';
+import 'preprocess/rgb_image.dart';
 import 'runtime/adapter.dart';
 import 'runtime/select.dart';
 import 'store/location.dart';
@@ -26,9 +28,17 @@ import 'tensor.dart';
 ///
 /// In Flutter, `ModelPortFlutter.init()` from `modelport_flutter` does this
 /// for you and picks the app's cache folder and the device's RAM.
+/// Decodes JPEG, PNG, and other image bytes into RGB pixels.
+typedef ImageDecoder = Future<RgbImage> Function(Uint8List bytes);
+
 abstract final class ModelPort {
   static final List<RuntimeAdapter> _adapters = [];
   static ModelStore? _store;
+
+  /// Decoder used by task APIs. Null means the pure Dart decoder from
+  /// `package:image`, run in a background isolate. `modelport_flutter` sets
+  /// the much faster native decoder of the Flutter engine.
+  static ImageDecoder? imageDecoder;
 
   /// Device memory used to skip variants that need more. Null means unknown.
   static int? deviceRamMb;
@@ -66,6 +76,7 @@ abstract final class ModelPort {
     _adapters.clear();
     _store = null;
     deviceRamMb = null;
+    imageDecoder = null;
   }
 
   /// Loads a tensor model: downloads what is missing, verifies it, and opens it

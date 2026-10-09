@@ -1,3 +1,4 @@
+import 'dart:isolate';
 import 'dart:typed_data';
 
 import '../errors.dart';
@@ -75,17 +76,29 @@ class ImageClassifier {
   List<String>? get labels => _labels;
 
   /// Classifies an encoded image such as JPEG or PNG bytes.
-  Future<List<Classification>> classify(Uint8List encodedImage, {int? topK}) =>
-      classifyImage(decodeRgbImage(encodedImage), topK: topK);
+  ///
+  /// Decoding uses [ModelPort.imageDecoder] when it is set, and otherwise the
+  /// pure Dart decoder in a background isolate.
+  Future<List<Classification>> classify(
+    Uint8List encodedImage, {
+    int? topK,
+  }) async {
+    final decoder = ModelPort.imageDecoder;
+    final image = decoder != null
+        ? await decoder(encodedImage)
+        : await Isolate.run(() => decodeRgbImage(encodedImage));
+    return classifyImage(image, topK: topK);
+  }
 
-  /// Classifies an already decoded image.
+  /// Classifies an already decoded image. Preprocessing runs in a background
+  /// isolate so the UI stays smooth.
   Future<List<Classification>> classifyImage(
     RgbImage image, {
     int? topK,
   }) async {
-    final outputs = await model.run({
-      _input.name: preprocessImage(image, _input),
-    });
+    final input = _input;
+    final tensor = await Isolate.run(() => preprocessImage(image, input));
+    final outputs = await model.run({input.name: tensor});
     return topClasses(
       outputs[_output.name]!,
       _rule,

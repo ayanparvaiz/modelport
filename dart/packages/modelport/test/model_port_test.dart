@@ -63,6 +63,17 @@ void main() {
       await classifier.close();
     });
 
+    test('a custom image decoder is used when set', () async {
+      var calls = 0;
+      ModelPort.imageDecoder = (bytes) async {
+        calls++;
+        return RgbImage(4, 4, Uint8List(48));
+      };
+      final classifier = await ImageClassifier.load(base);
+      await classifier.classify(solidPng(255, 0, 0));
+      expect(calls, 1);
+    });
+
     test('topK limits the results', () async {
       final classifier = await ImageClassifier.load(base);
       expect(
