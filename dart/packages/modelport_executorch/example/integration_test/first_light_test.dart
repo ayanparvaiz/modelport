@@ -48,4 +48,26 @@ void main() {
     debugPrint('EXECUTORCH| model run ${watch.elapsedMilliseconds}ms');
     await classifier.close();
   });
+
+  testWidgets('detects the dog with YOLOS-tiny', (tester) async {
+    const yolos = 'asset://assets/models/yolos-tiny';
+    final detector = await ObjectDetector.load(yolos);
+    final report = await detector.model.checkGolden();
+    debugPrint('EXECUTORCH| yolos $report');
+    expect(report.passed, isTrue, reason: '$report');
+
+    final photo = Uint8List.sublistView(
+      await rootBundle.load('assets/images/dog.jpg'),
+    );
+    await detector.detect(photo); // warm up
+    final watch = Stopwatch()..start();
+    final found = await detector.detect(photo);
+    debugPrint('EXECUTORCH| detect ${watch.elapsedMilliseconds}ms: $found');
+    expect(
+      found.any((d) => d.label == 'dog' && d.score > 0.5),
+      isTrue,
+      reason: '$found',
+    );
+    await detector.close();
+  });
 }

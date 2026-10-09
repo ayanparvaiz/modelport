@@ -42,6 +42,7 @@ jobs:
           done
           base=packages/modelport_executorch/example/assets
           mkdir -p "$base/images" "$base/models/mobilenet_v3_small/executorch-xnnpack-fp32" "$base/models/mobilenet_v3_small/golden"
+          mkdir -p "$base/models/yolos-tiny/executorch-xnnpack-fp32" "$base/models/yolos-tiny/golden"
       - name: Analyze Flutter packages and example
         run: |
           for dir in packages/modelport_flutter packages/modelport_onnx packages/modelport_onnx/example packages/modelport_executorch packages/modelport_executorch/example packages/modelport_llamacpp/example; do

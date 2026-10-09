@@ -29,3 +29,6 @@ flutter:
     - assets/models/mobilenet_v3_small/
     - assets/models/mobilenet_v3_small/executorch-xnnpack-fp32/
     - assets/models/mobilenet_v3_small/golden/
+    - assets/models/yolos-tiny/
+    - assets/models/yolos-tiny/executorch-xnnpack-fp32/
+    - assets/models/yolos-tiny/golden/

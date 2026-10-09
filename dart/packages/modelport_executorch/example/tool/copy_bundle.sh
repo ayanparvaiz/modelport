@@ -20,6 +20,17 @@ cp "$src/modelport.json" "$src/labels.txt" "$dst/"
 cp "$src/executorch-xnnpack-fp32/model.pte" "$dst/executorch-xnnpack-fp32/"
 cp "$src/golden/"*.bin "$dst/golden/"
 
+# Object detection: YOLOS-tiny, if it was exported with
+#   uv run modelport export hf:hustvl/yolos-tiny --target onnx,executorch
+yolos="$repo/dist/yolos-tiny"
+ydst="$app/assets/models/yolos-tiny"
+mkdir -p "$ydst/executorch-xnnpack-fp32" "$ydst/golden"
+if [ -f "$yolos/executorch-xnnpack-fp32/model.pte" ]; then
+  cp "$yolos/modelport.json" "$yolos/labels.txt" "$ydst/"
+  cp "$yolos/executorch-xnnpack-fp32/model.pte" "$ydst/executorch-xnnpack-fp32/"
+  cp "$yolos/golden/"*.bin "$ydst/golden/"
+fi
+
 mkdir -p "$app/assets/images"
 if [ ! -f "$app/assets/images/dog.jpg" ]; then
   curl -sSL -o "$app/assets/images/dog.jpg" https://github.com/pytorch/hub/raw/master/images/dog.jpg
