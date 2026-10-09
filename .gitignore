@@ -1,0 +1,47 @@
+# macOS
+.DS_Store
+
+# Editors
+.idea/
+*.iml
+.vscode/*
+!.vscode/extensions.json
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+python/dist/
+python/build/
+
+# Dart / Flutter
+.dart_tool/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.lock.bak
+coverage/
+
+# Model artifacts (never commit weights; tests generate tiny ones)
+dist/
+*.onnx
+*.onnx.data
+*.pte
+*.gguf
+*.safetensors
+*.pt
+*.pth
+*.ptd
+*.bin
+!spec/examples/**/*.bin
+
+# Local notes and secrets
+.env
+.env.*
