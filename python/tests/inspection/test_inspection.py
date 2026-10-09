@@ -46,7 +46,7 @@ def test_format_comes_from_magic_bytes_not_extension(tiny_gguf, tmp_path):
 def test_executorch_program(tmp_path):
     torch = pytest.importorskip("torch")
     pytest.importorskip("executorch.runtime")
-    from executorch.exir import (  # pyright: ignore[reportMissingImports]
+    from executorch.exir import (
         to_edge_transform_and_lower,
     )
 

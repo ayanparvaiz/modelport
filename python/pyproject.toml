@@ -86,6 +86,10 @@ select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
 include = ["src", "tests"]
 pythonVersion = "3.11"
 typeCheckingMode = "standard"
+# torch, torchvision, transformers, and executorch are optional extras that the
+# light CI job does not install. Missing imports are warnings there; locally, with
+# `uv sync --all-extras`, pyright sees and checks them.
+reportMissingImports = "warning"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

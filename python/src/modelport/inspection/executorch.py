@@ -12,7 +12,7 @@ _DTYPES = {0: "uint8", 1: "int8", 3: "int32", 4: "int64", 5: "float16", 6: "floa
 
 def read_executorch(path: Path) -> tuple[list[TensorInfo], list[TensorInfo], dict[str, str]]:
     try:
-        from executorch.runtime import Runtime  # pyright: ignore[reportMissingImports]
+        from executorch.runtime import Runtime
     except ImportError as error:
         raise MissingDependencyError("Inspecting .pte files", "executorch") from error
 

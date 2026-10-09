@@ -44,3 +44,25 @@ jobs:
         run: |
           uv run modelport schema -o ../spec
           git diff --exit-code ../spec/manifest.schema.json
+
+  export:
+    name: export tests (CPU torch)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+      - name: Install base and dev dependencies
+        run: uv sync --python 3.12 --locked
+      - name: Install CPU-only torch and the export extras
+        run: |
+          uv pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+          uv pip install onnxscript onnxruntime executorch transformers huggingface_hub
+      - name: Doctor
+        run: uv run --no-sync modelport doctor
+      - name: Tests, including the ones that need torch
+        run: uv run --no-sync pytest -rs
