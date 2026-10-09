@@ -1,0 +1,45 @@
+name: Bug report
+description: Something does not work as expected
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Commands, code, or a model link that shows the problem.
+      render: shell
+    validations:
+      required: true
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Python CLI
+        - Dart core (modelport)
+        - modelport_flutter
+        - modelport_onnx
+        - modelport_executorch
+        - modelport_llamacpp
+        - Manifest spec
+        - Docs
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform and device
+      placeholder: "Android 15, Pixel 7 / iOS 26, iPhone 15 / macOS 26"
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: Output of `modelport doctor` and `flutter --version`.
+      render: shell
