@@ -85,7 +85,13 @@ class GenerationDefaults(StrictModel):
 class LlmConfig(StrictModel):
     """Settings for text-generation models."""
 
-    context_length: int = Field(gt=0, description="Maximum tokens the model can attend to.")
+    context_length: int = Field(
+        gt=0,
+        description=(
+            "Context window to allocate on device. Keep it at or below the trained context; "
+            "smaller windows use less RAM."
+        ),
+    )
     chat_template: Literal["from_gguf"] = Field(
         default="from_gguf",
         description="Where the chat template comes from. Templates are never stored as code here.",

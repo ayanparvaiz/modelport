@@ -377,7 +377,7 @@
       "description": "Settings for text-generation models.",
       "properties": {
         "context_length": {
-          "description": "Maximum tokens the model can attend to.",
+          "description": "Context window to allocate on device. Keep it at or below the trained context; smaller windows use less RAM.",
           "exclusiveMinimum": 0,
           "title": "Context Length",
           "type": "integer"
