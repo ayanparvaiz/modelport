@@ -38,14 +38,20 @@ Engine packages such as `flutter_onnxruntime`, `executorch_flutter`, and `llm_ll
 2. **`modelport` (Dart)** reads the manifest, downloads and verifies the files, prepares inputs, runs the model through an adapter, and returns typed results.
 3. **Adapters** (`modelport_onnx`, `modelport_executorch`, `modelport_llamacpp`) connect existing engines to one API. Add only the engines you need.
 
-## Planned usage
+## Usage
+
+The Python CLI works today (install from source until it is on PyPI):
 
 ```bash
-pip install "modelport[onnx,hf]"
-modelport export torchvision:mobilenet_v3_small --target onnx
-modelport verify dist/mobilenet_v3_small
-modelport publish dist/mobilenet_v3_small --hf modelport-dev/mobilenet_v3_small
+cd python && uv sync --all-extras
+uv run modelport export torchvision:mobilenet_v3_small --target onnx,executorch
+uv run modelport quantize dist/mobilenet_v3_small --fp16 --int8
+uv run modelport verify dist/mobilenet_v3_small
 ```
+
+See the [CLI README](python/README.md) for every command.
+
+The Flutter side is planned:
 
 ```dart
 final classifier = await ImageClassifier.load('hf://modelport-dev/mobilenet_v3_small');
@@ -75,7 +81,7 @@ The full plan is in [PLAN.md](PLAN.md) (written in Bangla). In short:
 
 - [x] Manifest spec v0.1 ([docs](docs/spec.md))
 - [x] Engine spikes: ONNX Runtime, ExecuTorch, and llama.cpp all run on Android and macOS and match Python ([notes](notes/spikes.md), in Bangla)
-- [ ] Python CLI with ONNX export and verification
+- [x] Python CLI: export to ONNX and ExecuTorch, quantize, verify, pack, and publish
 - [ ] Dart core with download, cache, and preprocessing
 - [ ] ONNX, ExecuTorch, and llama.cpp adapters
 - [ ] Image classification, object detection, and text generation task APIs
