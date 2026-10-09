@@ -45,7 +45,7 @@ jobs:
           mkdir -p "$base/models/yolos-tiny/executorch-xnnpack-fp32" "$base/models/yolos-tiny/golden"
       - name: Analyze Flutter packages and example
         run: |
-          for dir in packages/modelport_flutter packages/modelport_onnx packages/modelport_onnx/example packages/modelport_executorch packages/modelport_executorch/example packages/modelport_llamacpp/example; do
+          for dir in packages/modelport_flutter packages/modelport_onnx packages/modelport_onnx/example packages/modelport_executorch packages/modelport_executorch/example packages/modelport_llamacpp/example apps/demo; do
             (cd "$dir" && flutter analyze --fatal-infos)
           done
       - name: Analyze and test modelport_llamacpp
