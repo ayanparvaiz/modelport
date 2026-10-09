@@ -82,3 +82,16 @@ Aro druto korar upay (pore): decode er somoy i choto kore pora (`targetWidth`), 
 - YOLOS 512x512 e ~1100 token er transformer, mid-range phone er jonno bhari. Phone app er jonno `--image-size 320` ba aro choto detector bhalo.
 - **executorch_dart er macOS bug:** hook `CMAKE_OSX_DEPLOYMENT_TARGET=11.0` hardcode kore, Xcode 27 minimum 12 chay. Package er `flutter test` ar app build ekoi build folder share kore, tai kokhono kokhono 11.0 cache e fire ashe. Workaround: `dart/.dart_tool/hooks_runner/shared/executorch_dart/build/` muche abar build. Upstream e report korar moto.
 
+## Demo app (Phase 8), OPPO phone
+
+Sob model zoo (GitHub release) theke download hoy.
+
+| Test | Debug | Profile (R8 shoho, release er moto) |
+|---|---|---|
+| Classify: ONNX, ONNX int8, ExecuTorch | Samoyed 0.75, golden pass | same |
+| Detect YOLOS 320: ONNX / ExecuTorch | dog 1.00 (1.1 s / 1.6 s) | dog 1.00 |
+| Chat SmolLM2 | "Paris" | same |
+| UI tab test | pass (screen on) | fail, karon phone er screen lock chilo |
+
+Release APK (arm64, tin engine) 65 MB. Install kore khule crash nai.
+
