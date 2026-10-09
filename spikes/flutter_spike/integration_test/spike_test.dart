@@ -16,6 +16,10 @@ import 'package:flutter_onnxruntime/flutter_onnxruntime.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:llm_llamacpp/llm_llamacpp.dart';
+// Workaround, see notes/spikes.md: ModelLoader in llm_llamacpp 0.7.0 does not load
+// the CPU backend .so files on Android. BackendInitializer does, but is not exported.
+// ignore: implementation_imports
+import 'package:llm_llamacpp/src/backend_initializer.dart';
 
 const samoyedIndex = 258;
 const inputShape = [1, 3, 224, 224];
@@ -119,6 +123,7 @@ void main() {
   });
 
   testWidgets('C: llama.cpp streams a chat reply', (tester) async {
+    BackendInitializer.initializeBackend();
     final repo = LlamaCppRepository();
     final watch = Stopwatch()..start();
     final model = await repo.loadModel(ggufPath);

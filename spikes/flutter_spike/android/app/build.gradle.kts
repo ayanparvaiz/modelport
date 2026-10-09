@@ -5,6 +5,14 @@ plugins {
 }
 
 android {
+    // llm_llamacpp loads its CPU backend .so files by directory path, so native
+    // libraries must be extracted from the APK. See notes/spikes.md.
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
+
     namespace = "dev.modelport.flutter_spike"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
