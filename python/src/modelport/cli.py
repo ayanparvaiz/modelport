@@ -2,14 +2,18 @@
 
 from __future__ import annotations
 
+import json
+from dataclasses import asdict
 from pathlib import Path
 from typing import Annotated
 
 import typer
 from pydantic import ValidationError
 from rich.console import Console
+from rich.table import Table
 
 from . import __version__
+from .inspection import InspectError, ModelInfo, TensorInfo, inspect_model
 from .manifest import MANIFEST_FILENAME, Manifest
 from .manifest.schema import render_schema
 
@@ -97,3 +101,65 @@ def validate(
             )
     if failed:
         raise typer.Exit(code=1)
+
+
+@app.command("inspect")
+def inspect_command(
+    path: Annotated[Path, typer.Argument(help="A .onnx, .pte, or .gguf model file.")],
+    as_json: Annotated[bool, typer.Option("--json", help="Print machine-readable JSON.")] = False,
+) -> None:
+    """Show a model file's inputs, outputs, and metadata."""
+    try:
+        info = inspect_model(path)
+    except InspectError as error:
+        err_console.print(f"[red]Error:[/red] {error}", highlight=False)
+        raise typer.Exit(code=1) from error
+
+    if as_json:
+        data = asdict(info)
+        data["path"] = str(info.path)
+        typer.echo(json.dumps(data, indent=2))
+        return
+    _print_model_info(info)
+
+
+def _format_size(size: int) -> str:
+    value = float(size)
+    for unit in ("B", "KB", "MB", "GB"):
+        if value < 1000 or unit == "GB":
+            return f"{value:.1f} {unit}" if unit != "B" else f"{size} B"
+        value /= 1000
+    raise AssertionError("unreachable")
+
+
+def _tensor_table(title: str, tensors: list[TensorInfo]) -> Table:
+    table = Table(title=title, title_justify="left", show_edge=False)
+    table.add_column("name")
+    table.add_column("dtype")
+    table.add_column("shape")
+    for tensor in tensors:
+        table.add_row(tensor.name, tensor.dtype, str(tensor.shape))
+    return table
+
+
+def _print_model_info(info: ModelInfo) -> None:
+    summary = Table.grid(padding=(0, 2))
+    summary.add_row("file", str(info.path))
+    summary.add_row("format", info.format)
+    summary.add_row("size", f"{_format_size(info.size)} ({info.size:,} bytes)")
+    summary.add_row("sha256", info.sha256)
+    console.print(summary)
+    if info.inputs:
+        console.print()
+        console.print(_tensor_table("Inputs", info.inputs))
+    if info.outputs:
+        console.print()
+        console.print(_tensor_table("Outputs", info.outputs))
+    if info.metadata:
+        console.print()
+        meta = Table(title="Metadata", title_justify="left", show_edge=False)
+        meta.add_column("key")
+        meta.add_column("value")
+        for key, value in info.metadata.items():
+            meta.add_row(key, value)
+        console.print(meta)
