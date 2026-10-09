@@ -2,8 +2,8 @@
 
 A `modelport.json` manifest describes everything an app needs to download, run, and interpret a model. The Python CLI writes it and the Dart packages read it.
 
-- JSON Schema: [`spec/manifest.schema.json`](../spec/manifest.schema.json)
-- Examples: [`spec/examples/`](../spec/examples/)
+- JSON Schema: [`spec/manifest.schema.json`](https://github.com/ayanparvaiz/modelport/blob/main/spec/manifest.schema.json)
+- Examples: [`spec/examples/`](https://github.com/ayanparvaiz/modelport/tree/main/spec/examples)
 - Check a manifest: `modelport validate path/to/modelport.json`
 
 > **Status: draft.** Spec 0.1 may still change before ModelPort v0.1.0 ships.
