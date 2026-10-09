@@ -1,0 +1,125 @@
+{
+  "schema": "modelport-zoo/1",
+  "models": [
+    {
+      "id": "mobilenet_v3_small",
+      "title": "MobileNetV3 Small",
+      "description": "Fast ImageNet classifier. fp32, fp16, and int8 ONNX, plus ExecuTorch.",
+      "task": "image-classification",
+      "license": "BSD-3-Clause",
+      "location": "https://github.com/ayanparvaiz/modelport/releases/download/zoo-v1/mobilenet_v3_small.json",
+      "source": "torchvision:mobilenet_v3_small",
+      "variants": [
+        {
+          "id": "onnx-fp32",
+          "runtime": "onnx",
+          "size": 10457135
+        },
+        {
+          "id": "executorch-xnnpack-fp32",
+          "runtime": "executorch",
+          "size": 10205344
+        },
+        {
+          "id": "onnx-fp16",
+          "runtime": "onnx",
+          "size": 5370588
+        },
+        {
+          "id": "onnx-int8",
+          "runtime": "onnx",
+          "size": 5611646
+        }
+      ]
+    },
+    {
+      "id": "deit-tiny-patch16-224",
+      "title": "DeiT Tiny",
+      "description": "Small vision transformer for ImageNet classification.",
+      "task": "image-classification",
+      "license": "apache-2.0",
+      "location": "https://github.com/ayanparvaiz/modelport/releases/download/zoo-v1/deit-tiny-patch16-224.json",
+      "source": "hf:facebook/deit-tiny-patch16-224",
+      "variants": [
+        {
+          "id": "onnx-fp32",
+          "runtime": "onnx",
+          "size": 23994817
+        },
+        {
+          "id": "executorch-xnnpack-fp32",
+          "runtime": "executorch",
+          "size": 23041184
+        },
+        {
+          "id": "onnx-fp16",
+          "runtime": "onnx",
+          "size": 12517999
+        },
+        {
+          "id": "onnx-int8",
+          "runtime": "onnx",
+          "size": 7428710
+        }
+      ]
+    },
+    {
+      "id": "yolos-tiny",
+      "title": "YOLOS Tiny (320x320)",
+      "description": "COCO object detector, exported at 320x320 for phones.",
+      "task": "object-detection",
+      "license": "apache-2.0",
+      "location": "https://github.com/ayanparvaiz/modelport/releases/download/zoo-v1/yolos-tiny.json",
+      "source": "hf:hustvl/yolos-tiny",
+      "variants": [
+        {
+          "id": "onnx-fp32",
+          "runtime": "onnx",
+          "size": 27362305
+        },
+        {
+          "id": "executorch-xnnpack-fp32",
+          "runtime": "executorch",
+          "size": 26152592
+        }
+      ]
+    },
+    {
+      "id": "smollm2-135m-instruct",
+      "title": "SmolLM2 135M Instruct",
+      "description": "Tiny chat model, 105 MB download. Weights stay on Hugging Face.",
+      "task": "text-generation",
+      "license": "apache-2.0",
+      "location": "https://github.com/ayanparvaiz/modelport/releases/download/zoo-v1/smollm2-135m-instruct.json",
+      "source": "hf:unsloth/SmolLM2-135M-Instruct-GGUF@9e6855bc4be7",
+      "variants": [
+        {
+          "id": "gguf-q4_k_m",
+          "runtime": "llamacpp",
+          "size": 105454144
+        }
+      ]
+    },
+    {
+      "id": "qwen2.5-0.5b-instruct",
+      "title": "Qwen2.5 0.5B Instruct",
+      "description": "Multilingual chat model, 491 MB (Q4_K_M) or 676 MB (Q8_0).",
+      "task": "text-generation",
+      "license": "apache-2.0",
+      "location": "https://github.com/ayanparvaiz/modelport/releases/download/zoo-v1/qwen2.5-0.5b-instruct.json",
+      "source": "hf:Qwen/Qwen2.5-0.5B-Instruct-GGUF@9217f5db79a2",
+      "variants": [
+        {
+          "id": "gguf-q4_k_m",
+          "runtime": "llamacpp",
+          "size": 491400032
+        },
+        {
+          "id": "gguf-q8_0",
+          "runtime": "llamacpp",
+          "size": 675710816
+        }
+      ]
+    }
+  ]
+}

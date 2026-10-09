@@ -1,0 +1,27 @@
+name: zoo
+
+on:
+  push:
+    branches: [main]
+    paths: ["zoo/**", "python/scripts/check_zoo.py", ".github/workflows/zoo.yml"]
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: manifests load and files exist
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: python
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v10.2.0
+        with:
+          enable-cache: true
+      - run: uv sync --python 3.12 --locked
+      - run: uv run python scripts/check_zoo.py
