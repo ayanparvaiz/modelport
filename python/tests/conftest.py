@@ -48,3 +48,44 @@ def tiny_gguf(tmp_path: Path) -> Path:
     writer.write_tensors_to_file()
     writer.close()
     return path
+
+
+@pytest.fixture
+def tiny_source():
+    """A small CNN classifier described as a SourceModel."""
+    torch = pytest.importorskip("torch")
+    from modelport.manifest import DType, ImagePreprocess, InputSpec, ResizeSpec, Task
+    from modelport.sources import SourceModel
+
+    torch.manual_seed(0)
+    net = torch.nn.Sequential(
+        torch.nn.Conv2d(3, 4, kernel_size=3, padding=1),
+        torch.nn.ReLU(),
+        torch.nn.AdaptiveAvgPool2d(1),
+        torch.nn.Flatten(),
+        torch.nn.Linear(4, 3),
+    ).eval()
+    return SourceModel(
+        module=net,
+        example_inputs=(torch.zeros(1, 3, 16, 16),),
+        id="tiny_cnn",
+        task=Task.IMAGE_CLASSIFICATION,
+        license="MIT",
+        inputs=[
+            InputSpec(
+                name="pixel_values",
+                dtype=DType.FLOAT32,
+                shape=[1, 3, 16, 16],
+                layout="NCHW",
+                preprocess=ImagePreprocess(
+                    resize=ResizeSpec(shorter_side=20, antialias=True),
+                    center_crop=(16, 16),
+                    mean=(0.485, 0.456, 0.406),
+                    std=(0.229, 0.224, 0.225),
+                ),
+            )
+        ],
+        output_names=["logits"],
+        labels=["red", "green", "blue"],
+        top_k=2,
+    )
