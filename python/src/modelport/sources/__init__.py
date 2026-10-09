@@ -13,7 +13,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from ..errors import ModelPortError
-from ..manifest import InputSpec, Task
+from ..manifest import DetectionPostprocess, InputSpec, Task
 
 _ID_CLEAN = re.compile(r"[^a-z0-9._-]+")
 
@@ -42,6 +42,8 @@ class SourceModel:
     description: str | None = None
     source: str | None = None
     top_k: int = 5
+    detection: DetectionPostprocess | None = None
+    """For object detection: how to decode the outputs. Labels are attached on export."""
     extra: dict[str, Any] = field(default_factory=dict)
 
 
@@ -54,7 +56,9 @@ def model_id(text: str) -> str:
     return cleaned
 
 
-def load_source(spec: str, *, license: str | None = None) -> SourceModel:
+def load_source(
+    spec: str, *, license: str | None = None, image_size: int | None = None
+) -> SourceModel:
     """Load a model from a source string such as 'torchvision:mobilenet_v3_small'."""
     kind, sep, rest = spec.partition(":")
     if not sep or not rest:
@@ -66,7 +70,7 @@ def load_source(spec: str, *, license: str | None = None) -> SourceModel:
     elif kind == "hf":
         from .hf import load_hf
 
-        model = load_hf(rest, license=license)
+        model = load_hf(rest, license=license, image_size=image_size)
     elif kind == "file":
         from .file import load_file
 
