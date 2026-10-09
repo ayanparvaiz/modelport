@@ -765,14 +765,14 @@ Prottek phase e thakbe **lokkho**, **kaj er checklist**, ar **kokhon shesh dhorb
 - [x] Typer app skeleton. `modelport --help` e sob command dekhay. *(`--version`, `schema`, `validate` ache.)*
 - [x] `doctor` command.
 - [x] `inspect` command, `.onnx` file er jonno. *(`.pte` ar `.gguf` o support kore, `--json` option shoho.)*
-- [ ] Source loader: `torchvision:`, `hf:` (image classification), `file:script.py:fn`.
-- [ ] `hf:` model er preprocessing `AutoImageProcessor` config theke auto nibe: size, mean, std, resample.
-- [ ] ONNX exporter: `dynamo=True`, `onnx.checker`, opset thik kora.
-- [ ] `quantize`: fp16 ar dynamic int8 variant.
-- [ ] `verify`: PyTorch vs onnxruntime tulona, golden file save.
-- [ ] `pack`: sha256, size, final manifest.
-- [ ] `publish --hf`: `huggingface_hub` diye upload.
-- [ ] Unit test, tiny model diye jate fast chole.
+- [x] Source loader: `torchvision:`, `hf:` (image classification), `file:script.py:fn`.
+- [x] `hf:` model er preprocessing `AutoImageProcessor` config theke auto nibe: size, mean, std, resample. *(ConvNext er `crop_pct` niyom o.)*
+- [x] ONNX exporter: `dynamo=True`, `onnx.checker`, opset thik kora. *(Phase 5 er ExecuTorch exporter o hoye geche.)*
+- [x] `quantize`: fp16 ar dynamic int8 variant. *(int8 sudhu MatMul/Gemm e, karon CNN e Conv quantize korle top-1 bodle jay.)*
+- [x] `verify`: PyTorch vs onnxruntime tulona, golden file save. *(ExecuTorch variant o check kore.)*
+- [x] `pack`: sha256, size, final manifest.
+- [x] `publish --hf`: `huggingface_hub` diye upload. *(Asol upload er jonno `hf auth login` lagbe.)*
+- [x] Unit test, tiny model diye jate fast chole. *(218 test, CI te CPU torch job o ache.)*
 - [x] GitHub Actions `python.yml`: ruff, pyright, pytest.
 
 **Shesh jokhon:** Ei tin ta command kaj kore, ar Hugging Face e bundle dekha jay:
