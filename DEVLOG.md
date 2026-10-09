@@ -14,3 +14,17 @@ Protidin er choto note. Shurute "aj ki korbo", sheshe "ki holo, kothay atkalam".
 **Ki holo**
 - Repo live: https://github.com/ayanparvaiz/modelport
 - README, LICENSE, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, issue template add holo
+- Python package skeleton, manifest er Pydantic model, JSON Schema, 3 ta example, 7 ta bhul example
+- CLI: `modelport --version`, `schema`, `validate`
+- GitHub Actions Python CI green (3.11, 3.12, 3.13)
+- Spike A, B, C pass: OPPO phone ar macOS duijaygay. Python er sathe output hubohu mile.
+
+**Kothay atkalam**
+- ExecuTorch export e channels_last input → `.contiguous()` diye thik
+- executorch_flutter er jonno cmake lage, flutter_onnxruntime er jonno macOS 14
+- llm_llamacpp Android e backend load kore na → workaround peyechi, upstream e report korte hobe
+- `flutter test` Android e app uninstall kore model muche dey → `--no-uninstall`
+
+**Kal ki korbo**
+- Phase 2: `doctor` ar `inspect` command
+- Hugging Face org, PyPI account (nije)
