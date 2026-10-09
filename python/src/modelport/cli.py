@@ -190,6 +190,49 @@ def export(
     console.print(f"\nNext: modelport verify {bundle.root}", highlight=False)
 
 
+@app.command()
+def verify(
+    bundle: Annotated[Path, typer.Argument(help="Bundle folder that contains modelport.json.")],
+) -> None:
+    """Run every variant on the golden input and compare with the expected output."""
+    from .verify import verify_bundle
+
+    try:
+        with console.status(f"Verifying {bundle}"):
+            results = verify_bundle(bundle)
+    except ModelPortError as error:
+        err_console.print(f"[red]Error:[/red] {error}", highlight=False)
+        raise typer.Exit(code=1) from error
+
+    table = Table(show_edge=False)
+    for column in ("variant", "runtime", "output", "max |diff|", "cosine", "top-1", "result"):
+        table.add_column(column)
+    for result in results:
+        if result.skipped:
+            table.add_row(result.variant_id, result.runtime, "", "", "", "", "[yellow]skipped[/]")
+            continue
+        for check in result.outputs:
+            ok = check.within_tolerance and check.top1_match is not False
+            top1 = {None: "", True: "same", False: "[red]different[/]"}[check.top1_match]
+            table.add_row(
+                result.variant_id,
+                result.runtime,
+                check.name,
+                f"{check.max_abs_diff:.2e}",
+                f"{check.cosine:.6f}",
+                top1,
+                "[green]pass[/]" if ok else "[red]fail[/]",
+            )
+    console.print(table)
+    for result in results:
+        if result.skipped:
+            console.print(f"[yellow]![/] {result.variant_id}: {result.skipped}", highlight=False)
+
+    failed = [r for r in results if not r.passed and r.skipped is None]
+    if failed or not any(r.passed for r in results):
+        raise typer.Exit(code=1)
+
+
 @app.command("inspect")
 def inspect_command(
     path: Annotated[Path, typer.Argument(help="A .onnx, .pte, or .gguf model file.")],
